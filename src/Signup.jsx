@@ -34,6 +34,7 @@ function LoginSignup() {
       });
       if (!res.ok) {
         let data;
+        
         try {
           data = await res.json();
         } catch {
@@ -42,21 +43,22 @@ function LoginSignup() {
         setError(data.error || data.message || `Login failed (HTTP ${res.status})`);
       } else {
         const data = await res.json();
+        localStorage.setItem("token", data.token);
         setSuccessMsg("Login successful!");
         // Always fetch user info from backend after login to get correct name and role
-        try {
-          const userRes = await fetch(`${API_URL}/user/by-email?email=${encodeURIComponent(loginData.email)}`);
-          if (userRes.ok) {
-            const userInfo = await userRes.json();
-            // Store both name and role from backend
-            localStorage.setItem("user", JSON.stringify({ name: userInfo.name, role: userInfo.role }));
-          } else {
-            // fallback: store role from login response if available, else "student"
-            localStorage.setItem("user", JSON.stringify({ name: loginData.email, role: data.role || "student" }));
-          }
-        } catch {
-          localStorage.setItem("user", JSON.stringify({ name: loginData.email, role: data.role || "student" }));
-        }
+        // try {
+        //   const userRes = await fetch(`${API_URL}/user/by-email?email=${encodeURIComponent(loginData.email)}`);
+        //   if (userRes.ok) {
+        //     const userInfo = await userRes.json();
+        //     // Store both name and role from backend
+        //     localStorage.setItem("user", JSON.stringify({ name: userInfo.name, role: userInfo.role }));
+        //   } else {
+        //     // fallback: store role from login response if available, else "student"
+        //     localStorage.setItem("user", JSON.stringify({ name: loginData.email, role: data.role || "student" }));
+        //   }
+        // } catch {
+        //   localStorage.setItem("user", JSON.stringify({ name: loginData.email, role: data.role || "student" }));
+        // }
         setTimeout(() => {
           navigate("/dashboard");
         }, 700);

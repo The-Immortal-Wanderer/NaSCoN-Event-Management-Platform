@@ -13,6 +13,7 @@ function AdminSponsorPackages() {
     setLoading(true);
     setMessage("");
 
+    console.log(`Bearer ${localStorage.getItem("token")}`)
     try {
       const response = await fetch("http://localhost:3000/sponsorship/package", {
         method: "POST",
