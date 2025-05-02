@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { ThemeContext } from "./App";
 
 function EventDetails() {
   const { eventId } = useParams();
   const [event, setEvent] = useState(null);
   const [rounds, setRounds] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     fetch(`http://localhost:3000/events`)
@@ -23,7 +25,7 @@ function EventDetails() {
       });
   }, [eventId]);
 
-  if (loading) return <div className="pt-28 text-lg text-gray-500">Loading...</div>;
+  if (loading) return <div className="pt-28 text-lg" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>Loading...</div>;
   if (!event) return <div className="pt-28 text-lg text-red-500">Event not found.</div>;
 
   return (
@@ -32,29 +34,37 @@ function EventDetails() {
         <Link to="/events" className="px-4 py-2 rounded-xl font-bold bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow hover:scale-105 transition-all">All Events</Link>
         <Link to="/dashboard" className="px-4 py-2 rounded-xl font-bold bg-gradient-to-r from-amber-400 to-purple-900 text-white shadow hover:scale-105 transition-all">Dashboard</Link>
       </div>
-      <h1 className="font-fraunces text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-900 to-amber-400 mb-4">
+      <h1
+        className="font-fraunces text-3xl font-extrabold mb-4"
+        style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}
+      >
         {event.name}
       </h1>
-      <div className="mb-4 text-gray-700">{event.description}</div>
-      <div className="mb-2 text-sm text-gray-500">
-        Category: <span className="font-semibold text-purple-900">{event.category}</span>
+      <div className="mb-4" style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>{event.description}</div>
+      <div className="mb-2 text-sm" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
+        Category: <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>{event.category}</span>
       </div>
-      <div className="mb-8 text-sm text-gray-500">
-        Max Participants: <span className="font-semibold">{event.max_participants}</span>
+      <div className="mb-8 text-sm" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
+        Max Participants: <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>{event.max_participants}</span>
       </div>
-      <h2 className="font-fraunces text-xl font-bold text-purple-900 mb-2">Rounds</h2>
+      <h2 className="font-fraunces text-xl font-bold mb-2" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>Rounds</h2>
       <div className="space-y-3">
         {rounds.length === 0 ? (
-          <div className="text-gray-500">No rounds scheduled yet.</div>
+          <div style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>No rounds scheduled yet.</div>
         ) : (
           rounds.map(r => (
             <motion.div
               key={r.event_round_id}
-              className="rounded-lg bg-white/80 border border-amber-100 px-4 py-3 shadow"
+              className="rounded-lg px-4 py-3 shadow"
+              style={{
+                background: "var(--glass-bg)",
+                border: "var(--glass-border)",
+                boxShadow: "var(--glass-shadow)"
+              }}
               whileHover={{ scale: 1.02 }}
             >
-              <div className="font-bold text-purple-900">{r.roundType}</div>
-              <div className="text-sm text-gray-700">
+              <div className="font-bold" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>{r.roundType}</div>
+              <div className="text-sm" style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>
                 {r.date_time && new Date(r.date_time).toLocaleString()} at {r.venue_name}
               </div>
             </motion.div>

@@ -14,8 +14,8 @@ import Profile from "./Profile";
 import SponsorshipPackages from "./SponsorshipPackages";
 import AddVenue from "./AddVenue";
 
-// Create a context for theme
-export const ThemeContext = createContext();
+// Move ThemeContext outside of the component to avoid HMR issues
+export const ThemeContext = React.createContext();
 
 function App() {
   // Theme state: 'light' or 'dark'
@@ -82,12 +82,66 @@ function App() {
         <Footer />
         {/* Optional: Custom scrollbar styling for vertical scroll */}
         <style>{`
+          :root {
+            /* Theme-based color tokens - updated dynamically */
+            --bg-primary: ${theme === "dark" ? "#18122b" : "#FAF9F6"};
+            --bg-secondary: ${theme === "dark" ? "#1a1333" : "#FFF8E1"};
+            --bg-tertiary: ${theme === "dark" ? "#2a1e4d" : "#FFFFFF"};
+            
+            --text-primary: ${theme === "dark" ? "#f5e9c9" : "#18122b"};
+            --text-secondary: ${theme === "dark" ? "#d6c6a7" : "#4E2A84"};
+            --text-tertiary: ${theme === "dark" ? "#b3a689" : "#6C2EB7"};
+            
+            --border-light: ${theme === "dark" ? "#3A2A5D" : "#E5E5E5"};
+            
+            /* Semantic colors - adapt based on theme */
+            --success: ${theme === "dark" ? "#66BB6A" : "#2E7D32"};
+            --info: ${theme === "dark" ? "#29B6F6" : "#0288D1"};
+            --warning: ${theme === "dark" ? "#FFB74D" : "#FF9800"};
+            --error: ${theme === "dark" ? "#EF5350" : "#C62828"};
+            
+            /* Glass morphism properties */
+            --glass-bg: ${theme === "dark" 
+              ? "rgba(26, 19, 51, 0.85)" 
+              : "rgba(255, 255, 255, 0.7)"};
+            --glass-border: ${theme === "dark" 
+              ? "1px solid #3A2A5D" 
+              : "1px solid #f0f0f0"};
+            --glass-shadow: ${theme === "dark"
+              ? "0 8px 32px 0 #1A133333, 0 2px 8px 0 #FFC72C11"
+              : "0 8px 32px 0 #4E2A8422, 0 2px 8px 0 #FFC72C22"};
+          }
+          
+          /* Existing styles */
           html, body, #root {
             overflow-x: hidden !important;
-            background: ${theme === "dark" ? "#18122b" : "#FFF8E1"};
-            color: ${theme === "dark" ? "#f5e9c9" : "#18122b"};
+            background: var(--bg-primary);
+            color: var(--text-primary);
             transition: background 0.5s, color 0.5s;
           }
+          
+          /* Typography theme adaptation */
+          ${theme === "dark" ? `
+            body {
+              font-weight: 500; /* Slightly increased for dark mode */
+              line-height: 1.65; /* 1.1x standard line height */
+            }
+          ` : `
+            body {
+              font-weight: 400;
+              line-height: 1.5;
+            }
+          `}
+          
+          /* Glass card styling */
+          .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            border: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+          }
+          
+          /* Existing scrollbar styling */
           ::-webkit-scrollbar {
             width: 10px;
             background: ${theme === "dark" ? "#2a1e4d" : "#f5e9c9"};

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
+import { ThemeContext } from "./App";
 
 // Set the event date to 18th April 2026 at 9:00 AM
 const NASCON_DATE = new Date("2026-04-18T09:00:00");
@@ -214,11 +215,25 @@ function Gallery() {
     "/gallery5.jpg",
     "/gallery6.jpg",
   ];
+  const { theme } = React.useContext(ThemeContext);
+
   // Animate image entrance
   return (
     <section className="mt-12 mb-8 relative">
-      <h2 className="font-fraunces text-xl md:text-2xl font-bold text-purple-900 mb-4 flex items-center gap-2">
-        <svg width={22} height={22}><circle cx={11} cy={11} r={10} fill="#FFD95E" /><circle cx={11} cy={11} r={5} fill="#FFD95E70" /></svg>Event Gallery
+      <h2
+        className="font-fraunces text-xl md:text-2xl font-bold mb-4 flex items-center gap-2"
+        style={{
+          color: theme === "dark" ? "#fff" : "#4E2A84", // white in dark, purple in light
+          textShadow: theme === "dark"
+            ? "0 2px 12px #000, 0 0 2px #FFD95E"
+            : "0 1px 0 #fff"
+        }}
+      >
+        <svg width={22} height={22}>
+          <circle cx={11} cy={11} r={10} fill="#FFD95E" />
+          <circle cx={11} cy={11} r={5} fill="#FFD95E70" />
+        </svg>
+        Event Gallery
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {images.map((src, i) => (
@@ -257,13 +272,17 @@ function Home() {
     return null;
   })();
 
+  const { theme } = React.useContext(ThemeContext);
+
   // Hero animations
   return (
     <div className="pt-28 pb-14 px-4 max-w-5xl mx-auto">
       <motion.div
-        className="glass-morphism bg-white/70 backdrop-blur-2xl rounded-3xl shadow-2xl border border-amber-100 px-6 md:px-12 py-8 md:py-14 mb-11"
+        className="glass-card backdrop-blur-2xl rounded-3xl shadow-2xl px-6 md:px-12 py-8 md:py-14 mb-11"
         style={{
-          boxShadow: "0 8px 44px 0 #FFC72C28, 0 2px 12px 0 #4E2A8420",
+          background: "var(--glass-bg)",
+          border: "var(--glass-border)",
+          boxShadow: "var(--glass-shadow)",
           position: "relative"
         }}
         initial="from"
@@ -292,7 +311,10 @@ function Home() {
               NaSCon 2025
             </motion.h1>
             <motion.p
-              className="text-lg md:text-xl text-purple-900 font-inter mb-4 drop-shadow font-bold"
+              className="text-lg md:text-xl font-inter mb-4 drop-shadow font-bold"
+              style={{
+                color: theme === "dark" ? "#FFC72C" : "#4E2A84"
+              }}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 0.96, y: 0 }}
               transition={{ delay: 0.21 }}
@@ -301,7 +323,10 @@ function Home() {
             </motion.p>
             <Countdown />
             <motion.p
-              className="text-base md:text-lg text-gray-700 font-inter mb-6"
+              className="text-base md:text-lg font-inter mb-6"
+              style={{
+                color: theme === "dark" ? "#f5e9c9" : "#18122b"
+              }}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.24 }}
@@ -354,21 +379,33 @@ function Home() {
       </motion.div>
       <Gallery />
       <motion.div
-        className="mt-12 mb-8 bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-amber-100 px-6 py-8"
+        className="mt-12 mb-8 glass-card rounded-2xl px-6 py-8"
         style={{
-          boxShadow: "0 8px 24px 0 #FFC72C33, 0 2px 12px 0 #4E2A8433",
-          position: "relative"
+          background: "var(--glass-bg)",
+          border: "var(--glass-border)",
+          boxShadow: "var(--glass-shadow)",
+          position: "relative" 
         }}
         initial={{ y: 30, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true, margin: "-10% 0px" }}
         transition={{ duration: 0.48, type: "spring", bounce: 0.12 }}
       >
-        <h2 className="font-fraunces text-2xl font-bold text-purple-900 mb-3 flex items-center gap-2">
+        <h2
+          className="font-fraunces text-2xl font-bold mb-3 flex items-center gap-2"
+          style={{
+            color: theme === "dark" ? "#FFC72C" : "#4E2A84"
+          }}
+        >
           <svg width={18} height={18}><circle cx={9} cy={9} r={8} fill="#4E2A84" /></svg>
           About NaSCon
         </h2>
-        <p className="text-base md:text-lg text-gray-700 font-inter">
+        <p
+          className="text-base md:text-lg font-inter"
+          style={{
+            color: theme === "dark" ? "#f5e9c9" : "#18122b"
+          }}
+        >
           NaSCon is the annual flagship event hosted by FAST-NUCES Islamabad, connecting brilliant students from across Pakistan.
           Compete, collaborate, and celebrate with a wide range of competitions, workshops, and cultural marvels. Experience the fusion of innovation, knowledge, leadership, and Pakistani spirit at NaSCon!
         </p>

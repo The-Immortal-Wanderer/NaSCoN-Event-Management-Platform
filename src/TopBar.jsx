@@ -27,57 +27,65 @@ function TopBar() {
     <nav
       className="flex items-center justify-between px-8 py-4"
       style={{
-        background: "rgba(255,255,255,0.85)",
+        background: theme === "dark"
+          ? "rgba(34, 24, 56, 0.92)"
+          : "rgba(255,255,255,0.85)",
+        color: "var(--text-primary)",
         backdropFilter: "blur(8px)",
         zIndex: 10,
         position: "relative",
-        ...(theme === "dark"
-          ? {
-              background: "rgba(34, 24, 56, 0.92)",
-              color: "#f5e9c9",
-            }
-          : {}),
       }}
     >
       <div className="flex items-center gap-4">
         <Link to="/" className="flex items-center gap-2">
           <Logo size={36} className="!mb-0" />
-          <span className="font-fraunces text-3xl font-extrabold text-purple-900">NaSCon</span>
+          <span
+            className="font-fraunces text-3xl font-extrabold"
+            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
+          >
+            NaSCon
+          </span>
         </Link>
         <div className="hidden md:flex items-center gap-10 ml-8">
           <Link
             to="/events"
-            className="font-inter font-extrabold text-purple-900 hover:text-amber-500 transition duration-200 pb-1"
+            className="font-inter font-extrabold transition duration-200 pb-1"
+            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
           >
             Events
           </Link>
           <Link
             to="/sponsorship/packages"
-            className="font-inter font-extrabold text-purple-900 hover:text-amber-500 transition duration-200 pb-1"
+            className="font-inter font-extrabold transition duration-200 pb-1"
+            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
           >
             Sponsorships
           </Link>
           <Link
             to="/my-registrations"
-            className="font-inter font-extrabold text-purple-900 hover:text-amber-500 transition duration-200 pb-1"
+            className="font-inter font-extrabold transition duration-200 pb-1"
+            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
           >
             My Registrations
           </Link>
           <Link
             to="/profile"
-            className="font-inter font-extrabold text-purple-900 hover:text-amber-500 transition duration-200 pb-1"
+            className="font-inter font-extrabold transition duration-200 pb-1"
+            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
           >
             Profile
           </Link>
           <Link
             to="/gallery"
-            className="font-inter font-extrabold text-purple-900 hover:text-amber-500 transition duration-200 pb-1"
+            className="font-inter font-extrabold transition duration-200 pb-1"
+            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
           >
             Gallery
           </Link>
           <Link
             to="/about"
-            className="font-inter font-extrabold text-purple-900 hover:text-amber-500 transition duration-200 pb-1"
+            className="font-inter font-extrabold transition duration-200 pb-1"
+            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
           >
             About
           </Link>
