@@ -62,6 +62,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginSignup />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              {/* <Route path></> */}
               {/* Add more general site pages here */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
