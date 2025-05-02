@@ -13,7 +13,7 @@ import MyRegistrations from "./MyRegistrations";
 import Profile from "./Profile";
 import SponsorshipPackages from "./SponsorshipPackages";
 import AddVenue from "./AddVenue";
-
+import AdminSponsorPackages from "./AdminSponsorPackages";
 // Create a context for theme
 export const ThemeContext = createContext();
 
@@ -74,7 +74,9 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/sponsorship/packages" element={<SponsorshipPackages />} />
               <Route path="/addVenue" element={<AddVenue />} />
+              <Route path="/admin/sponsorship/packages" element={<AdminSponsorPackages />} />
               {/* Add more general site pages here */}
+              
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
