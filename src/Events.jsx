@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ThemeContext } from "./App";
+import { toast } from "react-toastify";
 
 function Events() {
   const [events, setEvents] = useState([]);
@@ -18,52 +19,84 @@ function Events() {
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto pt-28 pb-14 px-4">
-      <div className="flex gap-4 mb-6">
-        <Link to="/" className="px-4 py-2 rounded-xl font-bold bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow hover:scale-105 transition-all">Home</Link>
-        <Link to="/dashboard" className="px-4 py-2 rounded-xl font-bold bg-gradient-to-r from-amber-400 to-purple-900 text-white shadow hover:scale-105 transition-all">Dashboard</Link>
-      </div>
-      <h1
-        className="font-fraunces text-4xl font-extrabold mb-8"
-        style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}
+    <div className="pt-28 pb-6 px-4 flex flex-col items-center w-full">
+      <motion.h1
+        className="font-fraunces text-4xl font-extrabold mb-8 text-center"
+        style={{
+          color: theme === "dark" ? "#FFC72C" : "#4E2A84",
+          letterSpacing: "0.01em"
+        }}
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, type: "spring" }}
       >
         All Events
-      </h1>
-      {loading ? (
-        <div className="text-lg" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>Loading events...</div>
-      ) : (
-        <div className="grid md:grid-cols-2 gap-8">
-          {events.map(event => (
-            <motion.div
-              key={event.event_id}
-              className="rounded-2xl backdrop-blur-xl shadow-lg p-6 flex flex-col"
-              style={{
-                background: "var(--glass-bg)",
-                border: "var(--glass-border)",
-                boxShadow: "var(--glass-shadow)"
-              }}
-              whileHover={{ scale: 1.03 }}
-            >
-              <h2
-                className="font-fraunces text-2xl font-bold mb-2"
-                style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}
+      </motion.h1>
+      
+      <motion.div 
+        className="w-20 h-1 mb-12"
+        style={{ 
+          background: theme === "dark" ? "#FFC72C" : "#4E2A84",
+          borderRadius: "1px"
+        }}
+        initial={{ width: 0 }}
+        animate={{ width: 80 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
+      />
+      
+      <div className="w-full max-w-5xl">
+        {loading ? (
+          <div 
+            className="text-lg glass-card p-8 text-center rounded-xl"
+            style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}
+          >
+            Loading events...
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-8">
+            {events.map(event => (
+              <motion.div
+                key={event.event_id}
+                className="rounded-2xl backdrop-blur-xl p-6 flex flex-col glass-card"
+                whileHover={{ scale: 1.03 }}
               >
-                {event.name}
-              </h2>
-              <div style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }} className="mb-2">{event.description}</div>
-              <div className="text-sm mb-4" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
-                Category: <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>{event.category}</span>
-              </div>
-              <Link
-                to={`/event/${event.event_id}`}
-                className="inline-block px-6 py-2 rounded-xl font-bold bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
-              >
-                View Details
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      )}
+                <h2
+                  className="font-fraunces text-2xl font-bold mb-2"
+                  style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}
+                >
+                  {event.name}
+                </h2>
+                <div 
+                  style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }} 
+                  className="mb-2"
+                >
+                  {event.description}
+                </div>
+                <div 
+                  className="text-sm mb-4" 
+                  style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}
+                >
+                  Category: <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>{event.category}</span>
+                </div>
+                <Link
+                  to={`/event/${event.event_id}`}
+                  className="inline-block px-6 py-2 rounded-xl font-bold bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all text-center w-full"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    minHeight: "44px", // ensures vertical centering
+                    fontWeight: 700,
+                    fontFamily: "Inter, Fraunces, sans-serif"
+                  }}
+                >
+                  View Details
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

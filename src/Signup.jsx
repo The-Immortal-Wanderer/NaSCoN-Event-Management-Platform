@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
+import { toast } from "react-toastify";
 
 const API_URL = "http://localhost:3000";
 
@@ -39,30 +40,28 @@ function LoginSignup() {
         } catch {
           data = {};
         }
-        setError(data.error || data.message || `Login failed (HTTP ${res.status})`);
+        setError(""); // toast replaces error display
+        toast.error(data.error || data.message || `Login failed (HTTP ${res.status})`);
       } else {
         const data = await res.json();
-        setSuccessMsg("Login successful!");
-        // Always fetch user info from backend after login to get correct name and role
+        setSuccessMsg(""); // toast replaces success display
+        toast.success("Login successful!");
         try {
           const userRes = await fetch(`${API_URL}/user/by-email?email=${encodeURIComponent(loginData.email)}`);
           if (userRes.ok) {
             const userInfo = await userRes.json();
-            // Store both name and role from backend
             localStorage.setItem("user", JSON.stringify({ name: userInfo.name, role: userInfo.role }));
           } else {
-            // fallback: store role from login response if available, else "student"
             localStorage.setItem("user", JSON.stringify({ name: loginData.email, role: data.role || "student" }));
           }
         } catch {
           localStorage.setItem("user", JSON.stringify({ name: loginData.email, role: data.role || "student" }));
         }
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 700);
+        navigate("/dashboard");
       }
     } catch (err) {
-      setError("Network error: Could not connect to backend.");
+      setError(""); // toast replaces error display
+      toast.error("Network error: Could not connect to backend.");
     }
     setLoading(false);
   };
@@ -86,13 +85,16 @@ function LoginSignup() {
         } catch {
           data = {};
         }
-        setError(data.message || `Signup failed (HTTP ${res.status})`);
+        setError(""); // toast replaces error display
+        toast.error(data.message || `Signup failed (HTTP ${res.status})`);
       } else {
-        setSuccessMsg("Signup successful! You may now login.");
+        setSuccessMsg(""); // toast replaces success display
+        toast.success("Signup successful! You may now login.");
         setTab("login");
       }
     } catch (err) {
-      setError("Network error: Could not connect to backend.");
+      setError(""); // toast replaces error display
+      toast.error("Network error: Could not connect to backend.");
     }
     setLoading(false);
   };
@@ -211,8 +213,6 @@ function LoginSignup() {
                       whileFocus={{ scale: 1.03, borderColor: "#FFC72C" }}
                     />
                   </div>
-                  {error && <motion.div className="text-red-600 text-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>{error}</motion.div>}
-                  {successMsg && <motion.div className="text-green-700 text-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>{successMsg}</motion.div>}
                   <motion.button
                     type="submit"
                     className="w-full bg-gradient-to-r from-purple-900 to-amber-400 text-white font-bold py-2 rounded-lg shadow hover:scale-105 transition-all"
@@ -311,8 +311,6 @@ function LoginSignup() {
                       {/* <option value="admin" disabled>Admin</option> */}
                     </motion.select>
                   </div>
-                  {error && <motion.div className="text-red-600 text-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>{error}</motion.div>}
-                  {successMsg && <motion.div className="text-green-700 text-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>{successMsg}</motion.div>}
                   <motion.button
                     type="submit"
                     className="w-full bg-gradient-to-r from-amber-400 to-purple-900 text-white font-bold py-2 rounded-lg shadow hover:scale-105 transition-all"

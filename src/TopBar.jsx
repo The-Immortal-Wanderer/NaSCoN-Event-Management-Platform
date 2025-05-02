@@ -17,11 +17,54 @@ function TopBar() {
   const user = getUser();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useContext(ThemeContext);
+  
+  // Determine user role for conditional rendering
+  const userRole = user?.role || "undefined"; // If not logged in, role is "undefined"
 
   function handleLogout() {
     localStorage.removeItem("user");
     navigate("/login");
   }
+
+  // Define navigation links based on role
+  const getNavLinks = () => {
+    // Base links for all users
+    const baseLinks = [
+      { to: "/events", label: "Events" },
+      { to: "/gallery", label: "Gallery" },
+      { to: "/about", label: "About" }
+    ];
+    
+    // Role-specific links
+    const roleSpecificLinks = {
+      admin: [
+        { to: "/sponsorship/packages", label: "Sponsorships" },
+        { to: "/admin/events", label: "Manage Events" },
+        { to: "/admin/venues", label: "Venues" },
+        { to: "/profile", label: "Profile" }
+      ],
+      organizer: [
+        { to: "/sponsorship/packages", label: "Sponsorships" },
+        { to: "/events/manage", label: "My Events" },
+        { to: "/profile", label: "Profile" }
+      ],
+      sponsor: [
+        { to: "/sponsorship/packages", label: "Sponsorships" },
+        { to: "/sponsorship/manage", label: "My Sponsorships" },
+        { to: "/profile", label: "Profile" }
+      ],
+      student: [
+        { to: "/my-registrations", label: "My Registrations" },
+        { to: "/profile", label: "Profile" }
+      ],
+      undefined: [] // No additional links for not logged in users
+    };
+    
+    // Return combined links based on role
+    return [...baseLinks, ...(roleSpecificLinks[userRole] || [])];
+  };
+
+  const navLinks = getNavLinks();
 
   return (
     <nav
@@ -47,48 +90,16 @@ function TopBar() {
           </span>
         </Link>
         <div className="hidden md:flex items-center gap-10 ml-8">
-          <Link
-            to="/events"
-            className="font-inter font-extrabold transition duration-200 pb-1"
-            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
-          >
-            Events
-          </Link>
-          <Link
-            to="/sponsorship/packages"
-            className="font-inter font-extrabold transition duration-200 pb-1"
-            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
-          >
-            Sponsorships
-          </Link>
-          <Link
-            to="/my-registrations"
-            className="font-inter font-extrabold transition duration-200 pb-1"
-            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
-          >
-            My Registrations
-          </Link>
-          <Link
-            to="/profile"
-            className="font-inter font-extrabold transition duration-200 pb-1"
-            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
-          >
-            Profile
-          </Link>
-          <Link
-            to="/gallery"
-            className="font-inter font-extrabold transition duration-200 pb-1"
-            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
-          >
-            Gallery
-          </Link>
-          <Link
-            to="/about"
-            className="font-inter font-extrabold transition duration-200 pb-1"
-            style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
-          >
-            About
-          </Link>
+          {navLinks.map((link, index) => (
+            <Link
+              key={index}
+              to={link.to}
+              className="font-inter font-extrabold transition duration-200 pb-1"
+              style={{ color: theme === "dark" ? "#FFC72C" : "var(--text-secondary)" }}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
       <div className="flex items-center space-x-4">

@@ -1,5 +1,7 @@
 import React, { useState, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import LoginSignup from "./Signup";
 import Dashboard from "./Dashboard";
 import Particles from "./ParticlesBG";
@@ -14,6 +16,9 @@ import Profile from "./Profile";
 import SponsorshipPackages from "./SponsorshipPackages";
 import AddVenue from "./AddVenue";
 import AdminSponsorPackages from "./AdminSponsorPackages";
+import Gallery from "./Gallery";
+import About from "./About";
+
 // Move ThemeContext outside of the component to avoid HMR issues
 export const ThemeContext = React.createContext();
 
@@ -75,6 +80,8 @@ function App() {
               <Route path="/sponsorship/packages" element={<SponsorshipPackages />} />
               <Route path="/addVenue" element={<AddVenue />} />
               <Route path="/admin/sponsorship/packages" element={<AdminSponsorPackages />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/about" element={<About />} />
               {/* Add more general site pages here */}
               
               <Route path="*" element={<Navigate to="/" />} />
@@ -82,6 +89,19 @@ function App() {
           </div>
         </div>
         <Footer />
+        {/* Toast notifications */}
+        <ToastContainer
+          position="top-left" // Show from the top left
+          autoClose={1500}    // Shorter stay time (1.5s)
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme={theme === "dark" ? "dark" : "light"}
+        />
         {/* Optional: Custom scrollbar styling for vertical scroll */}
         <style>{`
           :root {
