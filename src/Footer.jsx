@@ -25,6 +25,9 @@ function Footer() {
             <div className="font-fraunces text-xl font-bold text-gray-800 mb-2">Navigate</div>
             <Link to="/" className="text-gray-800 hover:text-amber-500 font-inter text-base mb-1 transition">Home</Link>
             <Link to="/events" className="text-gray-800 hover:text-amber-500 font-inter text-base mb-1 transition">Events</Link>
+            <Link to="/sponsorship/packages" className="text-gray-800 hover:text-amber-500 font-inter text-base mb-1 transition">Sponsorships</Link>
+            <Link to="/my-registrations" className="text-gray-800 hover:text-amber-500 font-inter text-base mb-1 transition">My Registrations</Link>
+            <Link to="/profile" className="text-gray-800 hover:text-amber-500 font-inter text-base mb-1 transition">Profile</Link>
             <Link to="/sponsors" className="text-gray-800 hover:text-amber-500 font-inter text-base mb-1 transition">Sponsors</Link>
             <Link to="/partners" className="text-gray-800 hover:text-amber-500 font-inter text-base mb-1 transition">Ambassadors and Partners</Link>
           </div>

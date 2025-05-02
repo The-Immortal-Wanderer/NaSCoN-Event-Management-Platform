@@ -52,6 +52,24 @@ function TopBar() {
             Events
           </Link>
           <Link
+            to="/sponsorship/packages"
+            className="font-inter font-extrabold text-purple-900 hover:text-amber-500 transition duration-200 pb-1"
+          >
+            Sponsorships
+          </Link>
+          <Link
+            to="/my-registrations"
+            className="font-inter font-extrabold text-purple-900 hover:text-amber-500 transition duration-200 pb-1"
+          >
+            My Registrations
+          </Link>
+          <Link
+            to="/profile"
+            className="font-inter font-extrabold text-purple-900 hover:text-amber-500 transition duration-200 pb-1"
+          >
+            Profile
+          </Link>
+          <Link
             to="/gallery"
             className="font-inter font-extrabold text-purple-900 hover:text-amber-500 transition duration-200 pb-1"
           >

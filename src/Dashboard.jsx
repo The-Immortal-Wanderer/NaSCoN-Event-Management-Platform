@@ -74,6 +74,15 @@ function StudentDashboard({ user }) {
             Payments
           </motion.button>
         </Link>
+        <Link to="/sponsorship/packages">
+          <motion.button
+            className="px-6 py-3 rounded-xl font-bold text-base bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Sponsorship Packages
+          </motion.button>
+        </Link>
       </div>
       <div className="text-gray-500 text-sm mt-8">
         Explore events, manage your registrations, and payments.
@@ -123,6 +132,15 @@ function OrganizerDashboard({ user }) {
             Manage Event Rounds
           </motion.button>
         </Link>
+        <Link to="/sponsorship/packages">
+          <motion.button
+            className="px-6 py-3 rounded-xl font-bold text-base bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Sponsorship Packages
+          </motion.button>
+        </Link>
       </div>
       <div className="text-gray-500 text-sm mt-8">
         Organize, edit, and monitor your events and rounds.
@@ -170,6 +188,15 @@ function SponsorDashboard({ user }) {
             whileTap={{ scale: 0.97 }}
           >
             Sponsorship Payments
+          </motion.button>
+        </Link>
+        <Link to="/sponsorship/packages">
+          <motion.button
+            className="px-6 py-3 rounded-xl font-bold text-base bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Sponsorship Packages
           </motion.button>
         </Link>
       </div>
@@ -228,6 +255,15 @@ function AdminDashboard({ user }) {
             whileTap={{ scale: 0.97 }}
           >
             Verify Payments
+          </motion.button>
+        </Link>
+        <Link to="/sponsorship/packages">
+          <motion.button
+            className="px-6 py-3 rounded-xl font-bold text-base bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Sponsorship Packages
           </motion.button>
         </Link>
       </div>

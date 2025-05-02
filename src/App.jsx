@@ -7,6 +7,12 @@ import SacredPattern from "./SacredPatternBG";
 import Home from "./Home";
 import TopBar from "./TopBar";
 import Footer from "./Footer"; // <-- Use the new Footer.jsx file
+import Events from "./Events";
+import EventDetails from "./EventDetails";
+import MyRegistrations from "./MyRegistrations";
+import Profile from "./Profile";
+import SponsorshipPackages from "./SponsorshipPackages";
+import AddVenue from "./AddVenue";
 
 // Create a context for theme
 export const ThemeContext = createContext();
@@ -62,6 +68,12 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginSignup />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/event/:eventId" element={<EventDetails />} />
+              <Route path="/my-registrations" element={<MyRegistrations />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/sponsorship/packages" element={<SponsorshipPackages />} />
+              <Route path="/addVenue" element={<AddVenue />} />
               {/* Add more general site pages here */}
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
