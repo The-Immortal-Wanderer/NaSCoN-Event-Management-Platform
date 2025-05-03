@@ -18,6 +18,8 @@ import AddVenue from "./AddVenue";
 import AdminSponsorPackages from "./AdminSponsorPackages";
 import Gallery from "./Gallery";
 import About from "./About";
+import AddEvents from "./AddEvents";
+import AdminEventApproval from "./AdminEventApproval";
 
 // Move ThemeContext outside of the component to avoid HMR issues
 export const ThemeContext = React.createContext();
@@ -82,6 +84,8 @@ function App() {
               <Route path="/admin/sponsorship/packages" element={<AdminSponsorPackages />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/about" element={<About />} />
+              <Route path="/add-event" element={<AddEvents />} />
+              <Route path="/admin/events" element={<AdminEventApproval />} />
               {/* Add more general site pages here */}
               
               <Route path="*" element={<Navigate to="/" />} />

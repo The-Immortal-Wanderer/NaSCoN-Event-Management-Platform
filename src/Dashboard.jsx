@@ -193,6 +193,19 @@ function OrganizerDashboard({ user }) {
             </motion.button>
           </Link>
         </div>
+        {/* Row 3: Add Event */}
+        <div className="flex justify-center w-full">
+        <Link to="/add-event" className="flex-1 flex justify-center" style={btnStyle}>
+          <motion.button
+            className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-purple-900 via-amber-400 to-purple-900 text-white shadow-lg hover:scale-105 transition-all"
+            style={btnStyle}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Add Event
+          </motion.button>
+        </Link>
+        </div>
       </div>
       <div className="text-sm mt-8" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
         Organize, edit, and monitor your events and rounds.

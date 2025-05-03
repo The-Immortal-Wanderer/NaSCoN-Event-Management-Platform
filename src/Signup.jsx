@@ -46,6 +46,7 @@ function LoginSignup() {
         const data = await res.json();
         setSuccessMsg(""); // toast replaces success display
         toast.success("Login successful!");
+        localStorage.setItem("token", data.token); // Store the token in localStorage
         try {
           const userRes = await fetch(`${API_URL}/user/by-email?email=${encodeURIComponent(loginData.email)}`);
           if (userRes.ok) {
