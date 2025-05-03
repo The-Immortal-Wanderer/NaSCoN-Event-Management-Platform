@@ -418,7 +418,3 @@ npm install
 # Start development server
 npm run dev
 ```
-
-### Environment Configuration
-
-Create a `.env` file in the project root:
