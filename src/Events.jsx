@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ThemeContext } from "./App";
 import { toast } from "react-toastify";
@@ -8,15 +8,32 @@ function Events() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useContext(ThemeContext);
+  const location = useLocation();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/events")
+    try {
+      setUser(JSON.parse(localStorage.getItem("user")));
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    let url = "http://localhost:3000/events";
+    // If on /events/manage, fetch only organizer's events
+    if (location.pathname === "/events/manage") {
+      url = "http://localhost:3000/organizer-events";
+    }
+    fetch(url, {
+      headers: location.pathname === "/events/manage"
+        ? { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        : undefined
+    })
       .then(res => res.json())
       .then(data => {
-        setEvents(data.events || []);
+        setEvents(data.events || data || []);
         setLoading(false);
       });
-  }, []);
+  }, [location.pathname]);
 
   return (
     <div className="pt-28 pb-6 px-4 flex flex-col items-center w-full">
@@ -50,7 +67,9 @@ function Events() {
             className="text-lg glass-card p-8 text-center rounded-xl"
             style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}
           >
-            Loading events...
+            {events.length === 0
+              ? "No events yet."
+              : "Loading events..."}
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-8">

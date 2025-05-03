@@ -137,7 +137,11 @@ function AdminSponsorPackages() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              {loading ? "Adding..." : "Add Package"}
+              {loading
+                ? (name === "" && perks === "" && price === ""
+                    ? "No sponsorship package info yet."
+                    : "Adding...")
+                : "Add Package"}
             </motion.button>
           </form>
         </motion.div>

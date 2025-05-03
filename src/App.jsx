@@ -20,6 +20,12 @@ import Gallery from "./Gallery";
 import About from "./About";
 import AddEvents from "./AddEvents";
 import AdminEventApproval from "./AdminEventApproval";
+import ManageJudges from "./ManageJudges";
+import VerifyPayments from "./VerifyPayments";
+import AccommodationDetails from "./AccommodationDetails";
+import ManageRounds from "./ManageRounds";
+import AddJudge from "./AddJudge";
+import MySponsorships from "./MySponsorships"; // Add this import
 
 // Move ThemeContext outside of the component to avoid HMR issues
 export const ThemeContext = React.createContext();
@@ -80,12 +86,20 @@ function App() {
               <Route path="/my-registrations" element={<MyRegistrations />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/sponsorship/packages" element={<SponsorshipPackages />} />
-              <Route path="/addVenue" element={<AddVenue />} />
+              <Route path="/sponsorship/manage" element={<MySponsorships />} /> {/* Add this route */}
+              <Route path="/admin/venues" element={<AddVenue />} />
               <Route path="/admin/sponsorship/packages" element={<AdminSponsorPackages />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/about" element={<About />} />
               <Route path="/add-event" element={<AddEvents />} />
               <Route path="/admin/events" element={<AdminEventApproval />} />
+              <Route path="/admin/judges" element={<ManageJudges />} />
+              <Route path="/admin/payments" element={<VerifyPayments />} />
+              <Route path="/admin/accommodation" element={<AccommodationDetails />} />
+              <Route path="/events/:eventId/rounds/manage" element={<ManageRounds />} />
+              <Route path="/events/manage" element={<Events />} />
+              <Route path="/events/create" element={<AddEvents />} />
+              <Route path="/admin/judges/add" element={<AddJudge />} />
               {/* Add more general site pages here */}
               
               <Route path="*" element={<Navigate to="/" />} />

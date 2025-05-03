@@ -28,7 +28,9 @@ function EventDetails() {
   if (loading) return (
     <div className="pt-28 pb-6 px-4 max-w-5xl mx-auto">
       <div className="glass-card p-8 text-center rounded-xl" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
-        Loading...
+        {event === null && rounds.length === 0
+          ? "No event details yet."
+          : "Loading..."}
       </div>
     </div>
   );

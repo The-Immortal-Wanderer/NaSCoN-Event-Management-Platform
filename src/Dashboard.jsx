@@ -50,15 +50,26 @@ function StudentDashboard({ user }) {
         className="text-lg mb-6"
         style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}
       >
-        <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#009688" }}>{user.role}</span> Dashboard
+        <span 
+          className="font-semibold" 
+          style={{ 
+            color: theme === "dark" ? "#FFC72C" : "#4E2A84",
+            textTransform: "capitalize" 
+          }}
+        >
+          {user.role}
+        </span> Dashboard
       </div>
       <div className="flex flex-col items-center gap-4 justify-center mb-8 w-full">
         {/* Row 1: Events & Registrations */}
         <div className="flex gap-4 justify-center w-full">
           <Link to="/events" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #4E2A84, #FFC72C)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -67,8 +78,11 @@ function StudentDashboard({ user }) {
           </Link>
           <Link to="/my-registrations" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-amber-400 to-purple-900 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #FFC72C, #4E2A84)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -78,37 +92,17 @@ function StudentDashboard({ user }) {
         </div>
         {/* Row 2: Profile & Payments */}
         <div className="flex gap-4 justify-center w-full">
-          <Link to="/profile" className="flex-1 flex justify-center" style={btnStyle}>
-            <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-teal-500 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              My Profile
-            </motion.button>
-          </Link>
           <Link to="/payments" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-amber-400 to-teal-500 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #4E2A84, #FFC72C, #4E2A84)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Payments
-            </motion.button>
-          </Link>
-        </div>
-        {/* Row 3: Sponsorships (rainbowish, centered) */}
-        <div className="flex justify-center w-full">
-          <Link to="/sponsorship/packages" className="flex-1 flex justify-center" style={btnStyle}>
-            <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-purple-900 via-amber-400 via-teal-400 to-purple-900 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Sponsorship Packages
+              My Payments
             </motion.button>
           </Link>
         </div>
@@ -144,15 +138,26 @@ function OrganizerDashboard({ user }) {
         className="text-lg mb-6"
         style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}
       >
-        <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#009688" }}>{user.role}</span> Dashboard
+        <span 
+          className="font-semibold" 
+          style={{ 
+            color: theme === "dark" ? "#FFC72C" : "#4E2A84",
+            textTransform: "capitalize" 
+          }}
+        >
+          {user.role}
+        </span> Dashboard
       </div>
       <div className="flex flex-col items-center gap-4 justify-center mb-8 w-full">
-        {/* Row 1: Event Management */}
+        {/* Row 1: Create Event & My Events */}
         <div className="flex gap-4 justify-center w-full">
           <Link to="/events/create" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #4E2A84, #FFC72C)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -161,54 +166,21 @@ function OrganizerDashboard({ user }) {
           </Link>
           <Link to="/events/manage" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-amber-400 to-purple-900 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #FFC72C, #4E2A84)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Manage My Events
+              My Events
             </motion.button>
           </Link>
-        </div>
-        {/* Row 2: Rounds & Sponsorships */}
-        <div className="flex gap-4 justify-center w-full">
-          <Link to="/event-rounds" className="flex-1 flex justify-center" style={btnStyle}>
-            <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-teal-500 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Manage Event Rounds
-            </motion.button>
-          </Link>
-          <Link to="/sponsorship/packages" className="flex-1 flex justify-center" style={btnStyle}>
-            <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-amber-400 to-teal-500 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Sponsorship Packages
-            </motion.button>
-          </Link>
-        </div>
-        {/* Row 3: Add Event */}
-        <div className="flex justify-center w-full">
-        <Link to="/add-event" className="flex-1 flex justify-center" style={btnStyle}>
-          <motion.button
-            className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-purple-900 via-amber-400 to-purple-900 text-white shadow-lg hover:scale-105 transition-all"
-            style={btnStyle}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Add Event
-          </motion.button>
-        </Link>
         </div>
       </div>
       <div className="text-sm mt-8" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
-        Organize, edit, and monitor your events and rounds.
+        Organize, edit, and monitor your events.
       </div>
     </>
   );
@@ -238,15 +210,26 @@ function SponsorDashboard({ user }) {
         className="text-lg mb-6"
         style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}
       >
-        <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#009688" }}>{user.role}</span> Dashboard
+        <span 
+          className="font-semibold" 
+          style={{ 
+            color: theme === "dark" ? "#FFC72C" : "#4E2A84",
+            textTransform: "capitalize" 
+          }}
+        >
+          {user.role}
+        </span> Dashboard
       </div>
       <div className="flex flex-col items-center gap-4 justify-center mb-8 w-full">
         {/* Row 1: Sponsorships (side by side) */}
         <div className="flex gap-4 justify-center w-full">
           <Link to="/sponsorship/packages" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #4E2A84, #FFC72C)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -255,8 +238,11 @@ function SponsorDashboard({ user }) {
           </Link>
           <Link to="/sponsorship/manage" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-amber-400 to-purple-900 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #FFC72C, #4E2A84)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -268,8 +254,11 @@ function SponsorDashboard({ user }) {
         <div className="flex justify-center w-full">
           <Link to="/payments" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-l from-teal-500 via-amber-400 to-teal-500 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #4E2A84, #FFC72C, #4E2A84)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -309,25 +298,39 @@ function AdminDashboard({ user }) {
         className="text-lg mb-6"
         style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}
       >
-        <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#009688" }}>{user.role}</span> Dashboard
+        <span 
+          className="font-semibold" 
+          style={{ 
+            color: theme === "dark" ? "#FFC72C" : "#4E2A84",
+            textTransform: "capitalize" 
+          }}
+        >
+          {user.role}
+        </span> Dashboard
       </div>
       <div className="flex flex-col items-center gap-4 justify-center mb-8 w-full">
         {/* Row 1: Events & Venues */}
         <div className="flex gap-4 justify-center w-full">
           <Link to="/admin/events" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #4E2A84, #FFC72C)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Approve/Reject Events
+              Manage Events
             </motion.button>
           </Link>
           <Link to="/admin/venues" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-amber-400 to-purple-900 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #FFC72C, #4E2A84)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -335,47 +338,144 @@ function AdminDashboard({ user }) {
             </motion.button>
           </Link>
         </div>
-        {/* Row 2: Users & Payments */}
+        {/* Row 2: Add Judge & Manage Judges */}
         <div className="flex gap-4 justify-center w-full">
-          <Link to="/admin/users" className="flex-1 flex justify-center" style={btnStyle}>
+          <Link to="/admin/judges/add" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-teal-500 to-amber-400 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #4E2A84, #FFC72C)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Manage Users
+              Add Judge
             </motion.button>
           </Link>
+          <Link to="/admin/judges" className="flex-1 flex justify-center" style={btnStyle}>
+            <motion.button
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #FFC72C, #4E2A84)"
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Manage Judges
+            </motion.button>
+          </Link>
+        </div>
+        {/* Row 3: Verify Payments,  Accommodation Details */}
+        <div className="flex gap-4 justify-center w-full">
           <Link to="/admin/payments" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-amber-400 to-teal-500 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #4E2A84, #FFC72C)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
               Verify Payments
             </motion.button>
           </Link>
-        </div>
-        {/* Row 3: Sponsorships */}
-        <div className="flex justify-center w-full">
-          <Link to="/admin/sponsorship/packages" className="flex-1 flex justify-center" style={btnStyle}>
+          <Link to="/admin/accommodation" className="flex-1 flex justify-center" style={btnStyle}>
             <motion.button
-              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs bg-gradient-to-r from-purple-900 via-amber-400 to-purple-900 text-white shadow-lg hover:scale-105 transition-all"
-              style={btnStyle}
+              className="px-6 py-3 rounded-xl font-bold text-base w-full max-w-xs text-white shadow-lg hover:scale-105 transition-all"
+              style={{
+                ...btnStyle,
+                background: "linear-gradient(to right, #FFC72C, #4E2A84)"
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
             >
-              Sponsorship Packages
+              Accommodation Details
             </motion.button>
           </Link>
         </div>
       </div>
       <div className="text-sm mt-8" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
-        Administer events, venues, users, and payments.
+        Administer events, venues, judges, payments, and accommodations.
       </div>
     </>
+  );
+}
+
+function JudgeDashboard({ user }) {
+  const displayName = getDisplayName(user);
+  const { theme } = useContext(ThemeContext);
+  const [events, setEvents] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch("http://localhost:3000/judge/events", {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    })
+      .then(res => res.json())
+      .then(data => {
+        setEvents(data.events || []);
+        setLoading(false);
+      });
+  }, []);
+
+  return (
+    <div className="pt-28 pb-6 px-4 flex flex-col items-center w-full">
+      <motion.h1
+        className="font-fraunces text-4xl font-extrabold mb-4 text-center"
+        style={{
+          color: theme === "dark" ? "#FFC72C" : "#4E2A84",
+          letterSpacing: "0.01em"
+        }}
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, type: "spring" }}
+      >
+        Judge Panel: {displayName}
+      </motion.h1>
+      <motion.div
+        className="w-20 h-1 mb-12"
+        style={{
+          background: theme === "dark" ? "#FFC72C" : "#4E2A84",
+          borderRadius: "1px"
+        }}
+        initial={{ width: 0 }}
+        animate={{ width: 80 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
+      />
+      <div className="w-full max-w-xl">
+        <motion.div
+          className="glass-card rounded-2xl p-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h2 className="font-fraunces text-xl font-bold mb-4" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>
+            Assigned Events
+          </h2>
+          {loading ? (
+            <div className="text-center" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
+              {events.length === 0
+                ? "No assigned events yet."
+                : "Loading assigned events..."}
+            </div>
+          ) : events.length === 0 ? (
+            <div className="text-center" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
+              Your assigned events will appear here.
+            </div>
+          ) : (
+            <ul>
+              {events.map(ev => (
+                <li key={ev.event_id} style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>
+                  {ev.name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -392,6 +492,9 @@ function Dashboard() {
       break;
     case "admin":
       content = <AdminDashboard user={user} />;
+      break;
+    case "judge":
+      content = <JudgeDashboard user={user} />;
       break;
     default:
       content = <StudentDashboard user={user} />;

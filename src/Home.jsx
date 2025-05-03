@@ -4,209 +4,12 @@ import Logo from "./Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { ThemeContext } from "./App";
+import Countdown from "./components/Countdown"; // Import the simplified countdown component
 
 // Set the event date to 18th April 2026 at 9:00 AM
 const NASCON_DATE = new Date("2026-04-18T09:00:00");
 
-function useCountdown(targetDate) {
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));
-  useEffect(() => {
-    const interval = setInterval(() => setTimeLeft(getTimeLeft(targetDate)), 1000);
-    return () => clearInterval(interval);
-  }, [targetDate]);
-  return timeLeft;
-}
-
-function getTimeLeft(target) {
-  const now = new Date();
-  const diff = Math.max(0, target - now);
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-  return { days, hours, minutes, seconds, finished: diff <= 0 };
-}
-
-// Improved FlipSegment with GSAP and visually matching the attached image
-function FlipSegment({ value, label }) {
-  const [displayVal, setDisplayVal] = useState(value);
-  const ref = useRef();
-
-  useEffect(() => {
-    if (displayVal !== value) {
-      gsap.fromTo(
-        ref.current,
-        { rotateX: 90, opacity: 0.2 },
-        {
-          rotateX: 0,
-          opacity: 1,
-          duration: 0.5,
-          ease: "power2.out",
-        }
-      );
-      setDisplayVal(value);
-    }
-  }, [value, displayVal]);
-
-  return (
-    <div className="flex flex-col items-center w-20 md:w-24 select-none">
-      <div
-        ref={ref}
-        className="rounded-[22px] md:rounded-[28px] shadow-lg font-extrabold text-3xl md:text-4xl w-full py-4 mb-1 flex items-center justify-center"
-        style={{
-          background: "linear-gradient(135deg, #FFC72C 0%, #bfa3e2 100%)",
-          color: "#fff",
-          fontFamily: "Inter, Fraunces, sans-serif",
-          fontWeight: 800,
-          letterSpacing: "0.01em",
-          fontVariantNumeric: "tabular-nums",
-          boxShadow: "0 4px 24px #4E2A8422, 0 1.5px 6px #FFC72C33",
-          border: "none",
-        }}
-      >
-        {String(value).padStart(2, "0")}
-      </div>
-      <span className="text-sm md:text-base font-bold text-purple-700 tracking-wide mt-1">{label}</span>
-    </div>
-  );
-}
-
-// Improved Countdown with pulse and GSAP
-function Countdown() {
-  const { days, hours, minutes, seconds, finished } = useCountdown(NASCON_DATE);
-  const pulseRef = useRef();
-
-  // Pulse effect on every second
-  useEffect(() => {
-    if (pulseRef.current) {
-      gsap.fromTo(
-        pulseRef.current,
-        { scale: 1 },
-        { scale: 1.08, duration: 0.18, yoyo: true, repeat: 1, ease: "power1.inOut" }
-      );
-    }
-  }, [seconds]);
-
-  // Custom celebratory effect (animated emoji burst) instead of confetti
-  useEffect(() => {
-    if (!finished) return;
-    // Animate a burst of emojis at the top of the page
-    const burst = document.createElement("div");
-    burst.style.position = "fixed";
-    burst.style.top = "10vh";
-    burst.style.left = "50%";
-    burst.style.transform = "translateX(-50%)";
-    burst.style.zIndex = 9999;
-    burst.style.pointerEvents = "none";
-    burst.style.fontSize = "2.5rem";
-    burst.style.fontWeight = "bold";
-    burst.style.transition = "opacity 1.2s";
-    burst.innerHTML = Array.from({ length: 18 })
-      .map(
-        (_, i) =>
-          `<span style="display:inline-block;transform:translateY(0) scale(1);animation:emoji-burst 1.2s cubic-bezier(.2,.8,.2,1) ${i *
-            0.05}s 1 both;">🎉</span>`
-      )
-      .join("");
-    document.body.appendChild(burst);
-
-    // Add keyframes for the burst effect
-    const style = document.createElement("style");
-    style.innerHTML = `
-      @keyframes emoji-burst {
-        0% { opacity: 0; transform: translateY(0) scale(0.7) rotate(-10deg);}
-        30% { opacity: 1; }
-        60% { opacity: 1; }
-        100% { opacity: 0; transform: translateY(-120px) scale(1.3) rotate(20deg);}
-      }
-    `;
-    document.head.appendChild(style);
-
-    setTimeout(() => {
-      burst.style.opacity = "0";
-      setTimeout(() => {
-        burst.remove();
-        style.remove();
-      }, 1200);
-    }, 1200);
-
-    // Cleanup
-    return () => {
-      burst.remove();
-      style.remove();
-    };
-  }, [finished]);
-
-  // Set the height to match the digit box (py-4 on digits = 4*2*4px = 32px + font size + border, so ~64px)
-  // Use flex and min-h for perfect vertical alignment
-  const digitBoxHeight = "64px"; // Adjust if you change digit box padding/font size
-
-  return (
-    <div
-      ref={pulseRef}
-      className="flex gap-2 md:gap-6 justify-center items-center mt-2 mb-8"
-      style={{ minHeight: digitBoxHeight }}
-    >
-      {finished ? (
-        <motion.div
-          className="text-3xl md:text-4xl font-fraunces font-extrabold text-[#FFC72C] drop-shadow-glow border border-amber-400 px-6 py-2 rounded-xl glass-morphism"
-          initial={{ scale: 0.7, y: 24 }}
-          animate={{ scale: 1, y: 0, rotateZ: [2, -7, 3, -5, 1, 0] }}
-          transition={{ type: "spring", stiffness: 200, damping: 12 }}
-        >NaSCon is Live Now!</motion.div>
-      ) : (
-        <>
-          <FlipSegment value={days} label="Days" />
-          <span
-            className="flex items-center justify-center font-extrabold"
-            style={{
-              fontSize: "2.5rem",
-              color: "#bfa3e2",
-              minHeight: digitBoxHeight,
-              height: digitBoxHeight,
-              lineHeight: digitBoxHeight,
-              margin: "0 0.5rem",
-              fontWeight: 800,
-              userSelect: "none",
-            }}
-          >:</span>
-          <FlipSegment value={hours} label="Hours" />
-          <span
-            className="flex items-center justify-center font-extrabold"
-            style={{
-              fontSize: "2.5rem",
-              color: "#bfa3e2",
-              minHeight: digitBoxHeight,
-              height: digitBoxHeight,
-              lineHeight: digitBoxHeight,
-              margin: "0 0.5rem",
-              fontWeight: 800,
-              userSelect: "none",
-            }}
-          >:</span>
-          <FlipSegment value={minutes} label="Minutes" />
-          <span
-            className="flex items-center justify-center font-extrabold"
-            style={{
-              fontSize: "2.5rem",
-              color: "#bfa3e2",
-              minHeight: digitBoxHeight,
-              height: digitBoxHeight,
-              lineHeight: digitBoxHeight,
-              margin: "0 0.5rem",
-              fontWeight: 800,
-              userSelect: "none",
-            }}
-          >:</span>
-          <FlipSegment value={seconds} label="Seconds" />
-        </>
-      )}
-    </div>
-  );
-}
-
 function Gallery() {
-  // If images are in public/imgs/
   const images = [
     "/imgs/img1.png",
     "/imgs/img2.png",
@@ -220,7 +23,6 @@ function Gallery() {
   ];
   const { theme } = React.useContext(ThemeContext);
 
-  // Animate image entrance
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
       {images.map((src, i) => (
@@ -247,16 +49,16 @@ function Gallery() {
 
 function EventStatistics() {
   const { theme } = React.useContext(ThemeContext);
-  
+
   const stats = [
     { number: "70+", label: "Events" },
     { number: "5M+", label: "Raised" },
     { number: "3M+", label: "Prize Money" },
     { number: "80+", label: "Institutes" }
   ];
-  
+
   return (
-    <motion.section 
+    <motion.section
       className="my-16 w-full"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
@@ -265,15 +67,15 @@ function EventStatistics() {
     >
       <div className="flex flex-wrap justify-center gap-6 md:gap-12 lg:gap-20">
         {stats.map((stat, i) => (
-          <motion.div 
-            key={i} 
+          <motion.div
+            key={i}
             className="flex flex-col items-center"
             initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1, duration: 0.5, type: "spring" }}
           >
-            <motion.div 
+            <motion.div
               className="text-5xl md:text-6xl font-fraunces font-black mb-1"
               style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}
               initial={{ scale: 0.8 }}
@@ -283,7 +85,7 @@ function EventStatistics() {
             >
               {stat.number}
             </motion.div>
-            <div 
+            <div
               className="text-base md:text-lg font-medium"
               style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}
             >
@@ -298,7 +100,7 @@ function EventStatistics() {
 
 function CategoryStrip() {
   const { theme } = React.useContext(ThemeContext);
-  
+
   const categories = [
     "Computing",
     "Business",
@@ -306,18 +108,18 @@ function CategoryStrip() {
     "Social",
     "Sports"
   ];
-  
+
   const stripStyle = {
-    background: theme === "dark" 
-      ? "linear-gradient(to right, #2a1e4d, #3A2A5D, #2a1e4d)" 
+    background: theme === "dark"
+      ? "linear-gradient(to right, #2a1e4d, #3A2A5D, #2a1e4d)"
       : "linear-gradient(to right, #4E2A84, #6C2EB7, #4E2A84)",
     boxShadow: theme === "dark"
       ? "0 4px 20px rgba(26, 19, 51, 0.6)"
       : "0 4px 20px rgba(78, 42, 132, 0.3)"
   };
-  
+
   return (
-    <motion.div 
+    <motion.div
       className="w-full py-7 my-10 overflow-hidden"
       style={stripStyle}
       initial={{ opacity: 0, x: -50 }}
@@ -327,7 +129,7 @@ function CategoryStrip() {
     >
       <div className="flex items-center justify-center gap-6 md:gap-16">
         {categories.map((category, i) => (
-          <motion.div 
+          <motion.div
             key={i}
             className="flex items-center font-fraunces text-xl md:text-2xl font-bold text-white"
             initial={{ opacity: 0, y: 10 }}
@@ -360,27 +162,27 @@ function Home() {
   return (
     <div className="pt-28 pb-6 px-4 max-w-5xl mx-auto relative">
       {/* Decorative blurred background shapes */}
-      <div 
+      <div
         className="absolute top-20 -left-64 w-96 h-96 rounded-full opacity-30 blur-3xl"
-        style={{ 
+        style={{
           background: theme === "dark" ? "radial-gradient(circle at center, #4E2A84, #1A1333)" : "radial-gradient(circle at center, #FFC72C, #FFE9A3)",
-          zIndex: -1 
+          zIndex: -1
         }}
       />
-      
-      <div 
+
+      <div
         className="absolute top-96 -right-48 w-80 h-80 rounded-full opacity-30 blur-3xl"
-        style={{ 
+        style={{
           background: theme === "dark" ? "radial-gradient(circle at center, #FFC72C, #4E2A84)" : "radial-gradient(circle at center, #4E2A84, #8F6DF2)",
-          zIndex: -1 
+          zIndex: -1
         }}
       />
-      
-      <div 
+
+      <div
         className="absolute bottom-40 -left-32 w-64 h-64 rounded-full opacity-20 blur-3xl"
-        style={{ 
+        style={{
           background: theme === "dark" ? "radial-gradient(circle at center, #009688, #1A1333)" : "radial-gradient(circle at center, #009688, #4ED8C9)",
-          zIndex: -1 
+          zIndex: -1
         }}
       />
 
@@ -398,22 +200,23 @@ function Home() {
         transition={{ staggerChildren: 0.08, delayChildren: 0.05 }}
       >
         {/* Subtle decorative glow inside the hero card */}
-        <div 
+        <div
           className="absolute top-0 right-0 w-1/2 h-1/2 rounded-full opacity-20 blur-3xl"
-          style={{ 
+          style={{
             background: theme === "dark" ? "radial-gradient(circle at center, #FFC72C, transparent)" : "radial-gradient(circle at center, #4E2A84, transparent)",
-            zIndex: 0 
+            zIndex: 0
           }}
         />
-        
+
         <motion.div
-          className="flex flex-col md:flex-row items-center gap-8 md:gap-14 relative z-1"
+          className="flex flex-col md:flex-row items-center gap-6 md:gap-10 relative z-1"
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, type: "spring", bounce: 0.17 }}
         >
+          {/* Content Column - Left-aligned text with centered countdown */}
           <motion.div
-            className="flex-1 text-center md:text-left"
+            className="flex-[3] w-full text-center md:text-left"
             initial={{ opacity: 0, x: -36 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.05, type: "spring" }}
@@ -440,7 +243,7 @@ function Home() {
             />
             
             <motion.p
-              className="text-lg md:text-xl font-inter mb-4 drop-shadow font-bold"
+              className="text-lg md:text-xl font-inter mb-4 drop-shadow font-bold max-w-xl mx-auto md:mx-0"
               style={{
                 color: theme === "dark" ? "#FFC72C" : "#4E2A84"
               }}
@@ -451,10 +254,13 @@ function Home() {
               Pakistan's Premier Tech & Cultural Event
             </motion.p>
             
-            <Countdown />
+            {/* Only the countdown itself is centered */}
+            <div className="flex justify-center md:justify-start">
+              <Countdown targetDate={NASCON_DATE} />
+            </div>
             
             <motion.p
-              className="text-base md:text-lg font-inter mb-6"
+              className="text-base md:text-lg font-inter mb-6 max-w-xl mx-auto md:mx-0"
               style={{
                 color: theme === "dark" ? "#f5e9c9" : "#18122b"
               }}
@@ -494,27 +300,28 @@ function Home() {
               )}
             </AnimatePresence>
           </motion.div>
-          
+
+          {/* Logo Column - Positioned equidistantly from text and right edge */}
           <motion.div
-            className="flex-1 flex items-center justify-center"
+            className="flex-1 flex items-center justify-end pr-8 md:pr-12 pt-8 md:pt-0"
             initial={{ opacity: 0, scale: 0.82, y: 18 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.5, type: "tween" }}
           >
-            <Logo size={168} style={{
-              boxShadow: "0 0 44px 6px #FFC72C33",
-              borderRadius: "50%",
-              marginBottom: 0
-            }} />
+            <div className="flex items-center justify-center">
+              <Logo size={200} style={{
+                boxShadow: "0 0 44px 6px #FFC72C33",
+                borderRadius: "50%",
+                marginBottom: 0
+              }} />
+            </div>
           </motion.div>
         </motion.div>
       </motion.div>
 
-      {/* Event Gallery Section with enhanced background */}
       <motion.div className="mb-16 relative">
-        {/* Subtle pattern behind gallery */}
         <div className="absolute inset-0 opacity-10" style={{
-          backgroundImage: theme === "dark" 
+          backgroundImage: theme === "dark"
             ? "url('data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"60\" height=\"60\" viewBox=\"0 0 60 60\"%3E%3Cpath d=\"M15 0L0 15V0H15ZM30 0L0 30V20L20 0H30ZM45 0L0 45V35L35 0H45ZM60 0L0 60V50L50 0H60ZM0 0H10L0 10V0Z\" fill=\"%23FFC72C\" /%3E%3C/svg%3E')"
             : "url('data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" width=\"60\" height=\"60\" viewBox=\"0 0 60 60\"%3E%3Cpath d=\"M15 0L0 15V0H15ZM30 0L0 30V20L20 0H30ZM45 0L0 45V35L35 0H45ZM60 0L0 60V50L50 0H60ZM0 0H10L0 10V0Z\" fill=\"%234E2A84\" /%3E%3C/svg%3E')",
           backgroundSize: "60px 60px",
@@ -531,10 +338,10 @@ function Home() {
         >
           Event Gallery
         </motion.h2>
-        
-        <motion.div 
+
+        <motion.div
           className="w-20 h-1 mx-auto mb-8"
-          style={{ 
+          style={{
             background: theme === "dark" ? "#FFC72C" : "#4E2A84",
             borderRadius: "1px"
           }}
@@ -543,27 +350,25 @@ function Home() {
           viewport={{ once: true }}
           transition={{ delay: 0.1, duration: 0.8 }}
         />
-        
+
         <Gallery />
       </motion.div>
 
-      {/* Enhanced Statistics Section with backdrop */}
       <div className="relative">
-        <div 
+        <div
           className="absolute inset-0 rounded-3xl opacity-20 blur-lg"
-          style={{ 
-            background: theme === "dark" 
-              ? "linear-gradient(135deg, rgba(42, 30, 77, 0.5), rgba(26, 19, 51, 0.5))" 
+          style={{
+            background: theme === "dark"
+              ? "linear-gradient(135deg, rgba(42, 30, 77, 0.5), rgba(26, 19, 51, 0.5))"
               : "linear-gradient(135deg, rgba(250, 249, 246, 0.8), rgba(255, 248, 225, 0.8))",
-            zIndex: -1 
+            zIndex: -1
           }}
         />
         <EventStatistics />
       </div>
 
       <CategoryStrip />
-      
-      {/* About Section with enhanced visual */}
+
       <motion.div
         className="mt-12 mb-4 glass-card rounded-2xl px-8 py-10 relative overflow-hidden"
         style={{
@@ -578,15 +383,14 @@ function Home() {
         viewport={{ once: true, margin: "-10% 0px" }}
         transition={{ duration: 0.6, type: "spring" }}
       >
-        {/* Decorative corner accent */}
-        <div 
+        <div
           className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-30 blur-2xl"
-          style={{ 
+          style={{
             background: theme === "dark" ? "radial-gradient(circle at center, #FFC72C, transparent)" : "radial-gradient(circle at center, #4E2A84, transparent)",
-            zIndex: 0 
+            zIndex: 0
           }}
         />
-        
+
         <div className="relative z-1">
           <motion.h2
             className="font-fraunces text-2xl font-bold mb-3 flex items-center gap-2"
@@ -599,10 +403,10 @@ function Home() {
             <svg width={18} height={18}><circle cx={9} cy={9} r={8} fill={theme === "dark" ? "#FFC72C" : "#4E2A84"} /></svg>
             About NaSCon
           </motion.h2>
-          
-          <motion.div 
+
+          <motion.div
             className="w-16 h-0.5 mb-6"
-            style={{ 
+            style={{
               background: theme === "dark" ? "#FFC72C" : "#4E2A84",
               borderRadius: "1px",
               opacity: 0.7
@@ -612,7 +416,7 @@ function Home() {
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.6 }}
           />
-          
+
           <motion.p
             className="text-base md:text-lg font-inter leading-relaxed"
             style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}

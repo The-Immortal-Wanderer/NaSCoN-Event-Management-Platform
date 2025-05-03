@@ -53,7 +53,9 @@ function SponsorshipPackages() {
             className="glass-card p-8 text-center rounded-xl"
             style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}
           >
-            Loading packages...
+            {packages.length === 0
+              ? "No sponsorship packages yet."
+              : "Loading packages..."}
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-6">

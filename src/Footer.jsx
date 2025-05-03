@@ -1,9 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "./App";
 
 function Footer() {
   const { theme } = useContext(ThemeContext);
+  const [user, setUser] = useState(null);
+  
+  // Load user data on component mount
+  useEffect(() => {
+    try {
+      const userData = JSON.parse(localStorage.getItem("user"));
+      if (userData && userData.name && userData.role) {
+        setUser(userData);
+      }
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+    }
+  }, []);
   
   const textColor = theme === "dark" ? "#FFC72C" : "#4E2A84";
   const hoverColor = "#FFC72C";
@@ -16,6 +29,92 @@ function Footer() {
       ? "0 2px 24px 0 rgba(26, 19, 51, 0.5), 0 1.5px 6px rgba(255, 199, 44, 0.2)"
       : "0 2px 24px 0 rgba(78, 42, 132, 0.1), 0 1.5px 6px rgba(255, 199, 44, 0.2)",
   };
+
+  // Define navigation links based on user role
+  const getNavigationLinks = () => {
+    // Common links for all users
+    const commonLinks = [
+      { to: "/", label: "Home" },
+      { to: "/events", label: "Events" },
+    ];
+    
+    // Role-specific links
+    if (!user) {
+      // Not logged in / Guest user
+      return [
+        ...commonLinks,
+        { to: "/sponsors", label: "Sponsors" },
+        { to: "/partners", label: "Ambassadors and Partners" }
+      ];
+    }
+    
+    switch (user.role.toLowerCase()) {
+      case "student":
+        return [
+          ...commonLinks,
+          { to: "/my-registrations", label: "My Registrations" },
+          { to: "/profile", label: "Profile" },
+          { to: "/sponsors", label: "Sponsors" },
+          { to: "/partners", label: "Partners" }
+        ];
+        
+      case "sponsor":
+        return [
+          ...commonLinks,
+          { to: "/sponsorship/packages", label: "Sponsorship Packages" },
+          { to: "/sponsorship/manage", label: "My Sponsorships" },
+          { to: "/profile", label: "Profile" },
+          { to: "/partners", label: "Partners" }
+        ];
+        
+      case "organizer":
+        return [
+          ...commonLinks,
+          { to: "/events/create", label: "Create Event" },
+          { to: "/events/manage", label: "Manage Events" },
+          { to: "/profile", label: "Profile" },
+          { to: "/sponsors", label: "Sponsors" }
+        ];
+        
+      case "admin":
+        return [
+          ...commonLinks,
+          { to: "/admin/events", label: "Manage Events" },
+          { to: "/admin/venues", label: "Manage Venues" },
+          { to: "/admin/judges", label: "Manage Judges" },
+          { to: "/admin/payments", label: "Verify Payments" },
+          { to: "/admin/accommodation", label: "Accommodation Details" }
+        ];
+        
+      default:
+        return commonLinks;
+    }
+  };
+
+  // Get useful links based on user role
+  const getUsefulLinks = () => {
+    const commonLinks = [
+      { href: "https://isb.nu.edu.pk/", label: "FAST-NUCES Website", external: true },
+      { href: "/info-booklet.pdf", label: "Information Booklet", external: true }
+    ];
+    
+    // Add role-specific useful links
+    if (!user || user.role.toLowerCase() === "student") {
+      return [
+        ...commonLinks,
+        { href: "/ambassador", label: "Become an Ambassador" },
+        { href: "/community-partner", label: "Become a Community Partner" }
+      ];
+    }
+    
+    return commonLinks;
+  };
+
+  const navigationLinks = getNavigationLinks();
+  const usefulLinks = getUsefulLinks();
+  
+  // Show sponsor section only for non-sponsors
+  const showSponsorSection = !user || user.role.toLowerCase() !== "sponsor";
 
   return (
     <footer className="w-full mt-16">
@@ -33,46 +132,74 @@ function Footer() {
             <div className="text-sm mt-2" style={{ color: textColor }}>For any website related query</div>
             <div className="text-sm font-mono" style={{ color: textColor }}>web-support@nascon.com.pk</div>
           </div>
-          {/* Navigation */}
+          
+          {/* Navigation - Role-based */}
           <div className="flex flex-col items-center md:items-start">
             <div className="font-fraunces text-xl font-bold mb-2" style={{ color: textColor }}>Navigate</div>
-            <Link to="/" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>Home</Link>
-            <Link to="/events" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>Events</Link>
-            <Link to="/sponsorship/packages" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>Sponsorships</Link>
-            <Link to="/my-registrations" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>My Registrations</Link>
-            <Link to="/profile" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>Profile</Link>
-            <Link to="/sponsors" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>Sponsors</Link>
-            <Link to="/partners" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>Ambassadors and Partners</Link>
+            {navigationLinks.map((link, index) => (
+              <Link 
+                key={index}
+                to={link.to} 
+                className="hover:text-amber-500 font-inter text-base mb-1 transition" 
+                style={{ color: textColor }}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
-          {/* Useful Links */}
+          
+          {/* Useful Links - Role-based */}
           <div className="flex flex-col items-center md:items-start">
             <div className="font-fraunces text-xl font-bold mb-2" style={{ color: textColor }}>Useful Links</div>
-            <a href="https://isb.nu.edu.pk/" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>FAST-NUCES Website</a>
-            <a href="/info-booklet.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>Information Booklet</a>
-            <a href="/ambassador" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>Become an Ambassador</a>
-            <a href="/community-partner" className="hover:text-amber-500 font-inter text-base mb-1 transition" style={{ color: textColor }}>Become a Community Partner</a>
+            {usefulLinks.map((link, index) => (
+              link.external ? (
+                <a 
+                  key={index}
+                  href={link.href} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="hover:text-amber-500 font-inter text-base mb-1 transition" 
+                  style={{ color: textColor }}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link 
+                  key={index}
+                  to={link.href} 
+                  className="hover:text-amber-500 font-inter text-base mb-1 transition" 
+                  style={{ color: textColor }}
+                >
+                  {link.label}
+                </Link>
+              )
+            ))}
           </div>
-          {/* Become a Sponsor */}
-          <div className="flex flex-col items-center md:items-start">
-            <div className="font-fraunces text-xl font-bold mb-2" style={{ color: textColor }}>Become a Sponsor</div>
-            <div className="text-sm mb-3" style={{ color: textColor }}>
-              To become an official sponsor for NaSCon'26, please give us some information and we will reach you out
+          
+          {/* Become a Sponsor - Only show for non-sponsors */}
+          {showSponsorSection && (
+            <div className="flex flex-col items-center md:items-start">
+              <div className="font-fraunces text-xl font-bold mb-2" style={{ color: textColor }}>Become a Sponsor</div>
+              <div className="text-sm mb-3" style={{ color: textColor }}>
+                To become an official sponsor for NaSCon'26, please sign up as a sponsor
+              </div>
+              <Link to="/signup">
+                <button
+                  className="px-6 py-2 rounded-lg font-fraunces font-semibold text-base bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all border-b-4 border-purple-900"
+                  style={{
+                    boxShadow: "0 2px 12px #4E2A8433",
+                    borderBottomWidth: "3px",
+                  }}
+                >
+                  Become a Sponsor
+                </button>
+              </Link>
             </div>
-            <Link to="/sponsors/apply">
-              <button
-                className="px-6 py-2 rounded-lg font-fraunces font-semibold text-base bg-gradient-to-r from-purple-900 to-amber-400 text-white shadow-lg hover:scale-105 transition-all border-b-4 border-purple-900"
-                style={{
-                  boxShadow: "0 2px 12px #4E2A8433",
-                  borderBottomWidth: "3px",
-                }}
-              >
-                Become a Sponsor
-              </button>
-            </Link>
-          </div>
+          )}
         </div>
       </div>
-      {/* Bottom bar */}
+      
+      {/* Bottom bar - keep unchanged */}
       <div className="w-full bg-gradient-to-r from-purple-900 to-amber-400 flex flex-col md:flex-row items-center justify-between px-6 py-3">
         <div className="text-white text-xs font-ibm-mono">
           © NaSCon 2026. All Rights Reserved.

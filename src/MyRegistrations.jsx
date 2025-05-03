@@ -46,7 +46,9 @@ function MyRegistrations() {
         >
           {loading ? (
             <div style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
-              Loading your registrations...
+              {registrations.length === 0
+                ? "No registrations yet."
+                : "Loading your registrations..."}
             </div>
           ) : registrations.length > 0 ? (
             <div className="space-y-4">

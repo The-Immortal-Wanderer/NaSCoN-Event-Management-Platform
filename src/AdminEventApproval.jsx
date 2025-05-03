@@ -9,7 +9,7 @@ function AdminEventApproval() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/events") // Fetch all events
+    fetch("http://localhost:3000/events")
       .then((res) => res.json())
       .then((data) => {
         const pendingEvents = data.events.filter((event) => event.status === "pending");
@@ -23,7 +23,6 @@ function AdminEventApproval() {
   }, []);
 
   const handleAction = (eventId, action) => {
-    console.log(eventId)
     const url = action === "accept" 
       ? `http://localhost:3000/event/accept/${eventId}` 
       : `http://localhost:3000/event/${eventId}/reject`;
@@ -46,10 +45,25 @@ function AdminEventApproval() {
       .catch(() => toast.error("Failed to perform action."));
   };
 
+  // Card transition variants
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.6,
+        type: "spring",
+        bounce: 0.2
+      }
+    })
+  };
+
   return (
     <div className="pt-28 pb-6 px-4 flex flex-col items-center w-full">
       <motion.h1
-        className="font-fraunces text-4xl font-extrabold mb-8 text-center"
+        className="font-fraunces text-4xl font-extrabold mb-4 text-center"
         style={{
           color: theme === "dark" ? "#FFC72C" : "#4E2A84",
           letterSpacing: "0.01em",
@@ -60,6 +74,17 @@ function AdminEventApproval() {
       >
         Pending Event Approvals
       </motion.h1>
+
+      <motion.div 
+        className="w-20 h-1 mb-12"
+        style={{ 
+          background: theme === "dark" ? "#FFC72C" : "#4E2A84",
+          borderRadius: "1px"
+        }}
+        initial={{ width: 0 }}
+        animate={{ width: 80 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
+      />
 
       {loading ? (
         <div
@@ -77,10 +102,14 @@ function AdminEventApproval() {
         </div>
       ) : (
         <div className="w-full max-w-5xl grid md:grid-cols-2 gap-8">
-          {events.map((event) => (
+          {events.map((event, i) => (
             <motion.div
               key={event.event_id}
               className="rounded-2xl backdrop-blur-xl p-6 flex flex-col glass-card"
+              custom={i}
+              initial="hidden"
+              animate="visible"
+              variants={cardVariants}
               whileHover={{ scale: 1.03 }}
             >
               <h2
@@ -91,7 +120,7 @@ function AdminEventApproval() {
               </h2>
               <div
                 style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}
-                className="mb-2"
+                className="mb-2 flex-grow"
               >
                 {event.description}
               </div>
@@ -99,29 +128,36 @@ function AdminEventApproval() {
                 className="text-sm mb-4"
                 style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}
               >
-                Category:{" "}
-                <span
-                  className="font-semibold"
-                  style={{
-                    color: theme === "dark" ? "#FFC72C" : "#4E2A84",
-                  }}
-                >
-                  {event.category}
-                </span>
+                Category: <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>{event.category}</span>
               </div>
-              <div className="flex gap-4">
-                <button
+              
+              <div className="flex gap-4 mt-auto">
+                <motion.button
                   onClick={() => handleAction(event.event_id, "accept")}
-                  className="px-6 py-2 rounded-xl font-bold bg-green-500 text-white shadow-lg hover:scale-105 transition-all"
+                  className="px-6 py-3 rounded-xl font-bold text-base text-white shadow-lg flex-1 text-center"
+                  style={{
+                    background: `linear-gradient(to right, #2E7D32, #4E2A84)`,
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 700,
+                  }}
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   Accept
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   onClick={() => handleAction(event.event_id, "reject")}
-                  className="px-6 py-2 rounded-xl font-bold bg-red-500 text-white shadow-lg hover:scale-105 transition-all"
+                  className="px-6 py-3 rounded-xl font-bold text-base text-white shadow-lg flex-1 text-center"
+                  style={{
+                    background: `linear-gradient(to right, #C62828, #4E2A84)`,
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 700,
+                  }}
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   Reject
-                </button>
+                </motion.button>
               </div>
             </motion.div>
           ))}

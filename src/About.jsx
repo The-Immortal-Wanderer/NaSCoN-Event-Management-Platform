@@ -517,7 +517,8 @@ function About() {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <p className="text-center" style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>
-            This website was designed and developed with ❤️ by the DB2 Class of 2023-24.
+            This website was designed and developed with ❤️ by the 23rd Batch Class of BS-4AI<br />
+            Frontend: Hammad [23i-012], Abu [23i-0125] Backend: Rafay [23i-0117], zar [23i-0125]
           </p>
         </motion.div>
       </div>

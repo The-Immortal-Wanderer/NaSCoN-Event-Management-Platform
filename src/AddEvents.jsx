@@ -2,9 +2,11 @@ import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { ThemeContext } from "./App";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function AddEvents() {
   const { theme } = useContext(ThemeContext);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -29,18 +31,29 @@ function AddEvents() {
     e.preventDefault();
     setLoading(true);
     try {
+      // Fix: send null if team_allowed is false
+      const payload = {
+        ...formData,
+        max_team_participants_limit: formData.team_allowed
+          ? formData.max_team_participants_limit
+          : null,
+      };
       const response = await fetch("http://localhost:3000/event", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const result = await response.json();
       if (response.ok) {
         toast.success("Event added successfully!");
+        // Redirect to round management form for the new event
+        if (result.event_id) {
+          navigate(`/events/${result.event_id}/rounds/manage`);
+        }
         setFormData({
           name: "",
           description: "",
@@ -201,19 +214,45 @@ function AddEvents() {
                 required
               ></textarea>
             </div>
-            <div className="mb-5">
+            <div className="mb-5 flex justify-between items-center">
               <label
-                className="block mb-2 font-medium"
+                className="font-medium"
                 style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}
               >
                 Team Allowed
               </label>
-              <input
-                type="checkbox"
-                name="team_allowed"
-                checked={formData.team_allowed}
-                onChange={handleChange}
-              />
+              <div className="relative inline-block">
+                <input
+                  type="checkbox"
+                  name="team_allowed"
+                  id="team_allowed"
+                  checked={formData.team_allowed}
+                  onChange={handleChange}
+                  className="sr-only"
+                />
+                <label
+                  htmlFor="team_allowed"
+                  className="flex items-center cursor-pointer"
+                >
+                  <div
+                    className={`w-14 h-7 rounded-full transition-all duration-300 ${
+                      formData.team_allowed 
+                        ? theme === "dark" ? "bg-gradient-to-r from-amber-400 to-purple-900" : "bg-gradient-to-r from-purple-900 to-amber-400"
+                        : theme === "dark" ? "bg-[#3A2A5D]" : "bg-gray-200"
+                    }`}
+                  >
+                    <div
+                      className={`absolute w-5 h-5 rounded-full transition-transform duration-300 transform ${
+                        formData.team_allowed ? "translate-x-8" : "translate-x-1"
+                      } top-1 ${
+                        formData.team_allowed 
+                          ? "bg-white" 
+                          : theme === "dark" ? "bg-[#18122b]" : "bg-white"
+                      }`}
+                    ></div>
+                  </div>
+                </label>
+              </div>
             </div>
             {formData.team_allowed && (
               <div className="mb-5">
