@@ -3,9 +3,18 @@ import { motion } from "framer-motion";
 import { ThemeContext } from "./App";
 import { toast } from "react-toastify";
 
+function getDisplayName(user) {
+  // If the name looks like an email, show only the part before '@'
+  if (user && typeof user.name === "string" && user.name.includes("@")) {
+    return user.name.split("@")[0];
+  }
+  return user && user.name ? user.name : "User";
+}
+
 function Profile() {
   const [user, setUser] = useState(null);
   const { theme } = useContext(ThemeContext);
+  const displayName = getDisplayName(user);
 
   useEffect(() => {
     try {
@@ -81,7 +90,7 @@ function Profile() {
         >
           <div className="mb-6 pb-6 border-b" style={{ borderColor: theme === "dark" ? "#3A2A5D" : "#E5E5E5" }}>
             <div className="text-2xl font-fraunces mb-2" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>
-              {user.name}
+              {displayName.charAt(0).toUpperCase() + displayName.slice(1)}
             </div>
             <div className="text-sm" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
               {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
@@ -90,7 +99,7 @@ function Profile() {
 
           <div className="mb-4">
             <span className="font-bold" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>Email:</span>{" "}
-            <span style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>{user.email}</span>
+            <span style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>{user.name}</span>
           </div>
           
           <div className="mb-4">

@@ -30,6 +30,7 @@ function LoginSignup() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),
       });
+      
       if (!res.ok) {
         const data = await res.json();
         toast.error(data.error || "Login failed");
@@ -38,7 +39,7 @@ function LoginSignup() {
         toast.success("Login successful!");
         localStorage.setItem("token", data.token);
         
-        // Get user information and store it in localStorage
+        // Store user information including role
         try {
           const userRes = await fetch(`${API_URL}/user/by-email?email=${encodeURIComponent(loginData.email)}`, {
             headers: { Authorization: `Bearer ${data.token}` }
