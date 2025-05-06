@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ThemeContext } from "./App";
 
@@ -89,11 +89,33 @@ function EventDetails() {
               {event.category}
             </span>
           </div>
-          <div className="mb-4 text-sm" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
+          <div className="mb-2 text-sm" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
             Max Participants: <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>
               {event.max_participants}
             </span>
           </div>
+          <div className="mb-4 text-sm" style={{ color: theme === "dark" ? "#b3a689" : "#6C2EB7" }}>
+            Registration Fee: <span className="font-semibold" style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}>
+              PKR {event.registration_fee}
+            </span>
+          </div>
+          
+          <motion.div className="mt-6">
+            <Link to={`/event/${event.event_id}/register`}>
+              <motion.button
+                className="px-6 py-3 rounded-xl font-bold text-base text-white shadow-lg w-full"
+                style={{
+                  background: theme === "dark" 
+                    ? "linear-gradient(to right, #FFC72C, #4E2A84)"
+                    : "linear-gradient(to right, #4E2A84, #FFC72C)"
+                }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Register for Event
+              </motion.button>
+            </Link>
+          </motion.div>
         </motion.div>
 
         <motion.div

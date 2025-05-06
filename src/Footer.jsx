@@ -57,6 +57,7 @@ function Footer() {
     { to: "/events", label: "Events", roles: [] },
     { to: "/sponsorship/packages", label: "Sponsorships", roles: ["sponsor"] },
     { to: "/my-registrations", label: "My Registrations", roles: ["student"] },
+    { to: "/accommodation", label: "Accommodation", roles: ["student"] },
     { to: "/profile", label: "Profile", roles: ["student", "sponsor", "organizer", "admin", "judge"] },
     { to: "/sponsors", label: "Sponsors", roles: [] },
     { to: "/partners", label: "Ambassadors and Partners", roles: [] }

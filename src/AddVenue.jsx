@@ -78,12 +78,42 @@ function AddVenue() {
         transition={{ delay: 0.3, duration: 0.8 }}
       />
       
+      {/* Important Information Section */}
+      <motion.div
+        className="w-full max-w-xl glass-card mb-8 rounded-xl overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <div className="p-1 bg-gradient-to-r from-purple-900 to-amber-400">
+          {/* Gradient strip at top */}
+        </div>
+        <div className="p-6">
+          <h2 
+            className="font-fraunces text-xl font-bold mb-3 flex items-center" 
+            style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+            Venue Management Information
+          </h2>
+          <p className="text-sm mb-2" style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>
+            <strong>Venue Setup:</strong> All venues added here will become available for event organizers to select when scheduling their event rounds. Accurate capacity information is crucial for planning.
+          </p>
+          <p className="text-sm" style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>
+            <strong>Availability:</strong> Once added, venues can be booked by organizers for specific time slots. The system will prevent double-booking of venues for overlapping time periods.
+          </p>
+        </div>
+      </motion.div>
+      
       <div className="w-full max-w-xl">
         <motion.div
           className="glass-card rounded-2xl p-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
+          <div className="p-1 bg-gradient-to-r from-purple-900 to-amber-400 -mx-8 -mt-8 mb-6"></div>
           <form onSubmit={handleSubmit}>
             <div className="mb-5">
               <label 

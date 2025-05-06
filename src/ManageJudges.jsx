@@ -25,7 +25,7 @@ function ManageJudges() {
 
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:3000/judges", {
+      fetch("http://localhost:3000/admin/judges", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       }).then(res => res.json()),
       fetch("http://localhost:3000/events", {
@@ -49,13 +49,13 @@ function ManageJudges() {
     }
     
     setSubmitting(true);
-    fetch("http://localhost:3000/judge/assign", {
+    fetch("http://localhost:3000/admin/assign-judge", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`
       },
-      body: JSON.stringify({ judge_id: selectedJudge, event_id: selectedEvent })
+      body: JSON.stringify({ user_id: selectedJudge, event_id: selectedEvent })
     })
       .then(res => res.json())
       .then(data => {
@@ -99,6 +99,35 @@ function ManageJudges() {
         animate={{ width: 80 }}
         transition={{ delay: 0.3, duration: 0.8 }}
       />
+      
+      {/* Important Information Section */}
+      <motion.div
+        className="w-full max-w-3xl glass-card mb-8 rounded-xl overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <div className="p-1 bg-gradient-to-r from-purple-900 to-amber-400">
+          {/* Gradient strip at top */}
+        </div>
+        <div className="p-6">
+          <h2 
+            className="font-fraunces text-xl font-bold mb-3 flex items-center" 
+            style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+            Judge Assignment Process
+          </h2>
+          <p className="text-sm mb-2" style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>
+            <strong>Assignment Guidelines:</strong> Assign judges based on their expertise and availability. Each event requires at least one judge, but complex competitions may benefit from multiple judges.
+          </p>
+          <p className="text-sm" style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>
+            <strong>Access Control:</strong> Once assigned, judges will only have access to their specific events in the system. They'll be able to view participant details, enter scores, and provide feedback for their assigned events only.
+          </p>
+        </div>
+      </motion.div>
       
       <div className="w-full max-w-3xl">
         {loading ? (

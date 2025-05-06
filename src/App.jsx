@@ -8,7 +8,7 @@ import Particles from "./ParticlesBG";
 import SacredPattern from "./SacredPatternBG";
 import Home from "./Home";
 import TopBar from "./TopBar";
-import Footer from "./Footer"; // <-- Use the new Footer.jsx file
+import Footer from "./Footer";
 import Events from "./Events";
 import EventDetails from "./EventDetails";
 import MyRegistrations from "./MyRegistrations";
@@ -25,22 +25,27 @@ import VerifyPayments from "./VerifyPayments";
 import AccommodationDetails from "./AccommodationDetails";
 import ManageRounds from "./ManageRounds";
 import AddJudge from "./AddJudge";
-import MySponsorships from "./MySponsorships"; // Add this import
+import MySponsorships from "./MySponsorships";
+import StudentAccommodation from "./StudentAccommodation";
+import AdminPaymentApproval from "./AdminPaymentApproval";
+import EventRegistration from "./EventRegistration";
+import EventPayment from "./EventPayment";
+import JudgeEventsList from "./JudgeEventsList";
+import JudgeEventDetails from "./JudgeEventDetails";
+import JudgeScoreSubmission from "./JudgeScoreSubmission";
+import JudgeEventResults from "./JudgeEventResults";
+import JudgeScoringHistory from "./JudgeScoringHistory";
 
-// Move ThemeContext outside of the component to avoid HMR issues
 export const ThemeContext = React.createContext();
 
 function App() {
-  // Theme state: 'light' or 'dark'
   const [theme, setTheme] = useState("light");
 
-  // Toggle theme function
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <Router>
-        {/* Global background accessories */}
         <div
           className="fixed inset-0 w-full h-full pointer-events-none z-0"
           style={{
@@ -51,8 +56,7 @@ function App() {
             minWidth: "100vw",
             top: 0,
             left: 0,
-            overflow: "hidden", // Prevent horizontal scroll on background
-            // Add dark mode background
+            overflow: "hidden",
             background: theme === "dark"
               ? "radial-gradient(ellipse at 60% 20%, #1a1333 0%, #2a1e4d 60%, #18122b 100%)"
               : "radial-gradient(ellipse at 60% 20%, #FFC72C55 0%, #FFF8E1 60%, #FAF9F6 100%)",
@@ -69,12 +73,11 @@ function App() {
             minHeight: "100vh",
             width: "100vw",
             position: "relative",
-            overflowX: "hidden", // Prevent horizontal scroll on main content
+            overflowX: "hidden",
             color: theme === "dark" ? "#f5e9c9" : undefined,
             transition: "background 0.5s, color 0.5s",
           }}
         >
-          {/* Provide theme as prop for TopBar to allow Dashboard button placement */}
           <TopBar theme={theme} />
           <div className="pb-32" style={{ overflowX: "hidden" }}>
             <Routes>
@@ -83,10 +86,12 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/events" element={<Events />} />
               <Route path="/event/:eventId" element={<EventDetails />} />
+              <Route path="/event/:eventId/register" element={<EventRegistration />} />
+              <Route path="/payment/event/:eventId" element={<EventPayment />} />
               <Route path="/my-registrations" element={<MyRegistrations />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/sponsorship/packages" element={<SponsorshipPackages />} />
-              <Route path="/sponsorship/manage" element={<MySponsorships />} /> {/* Add this route */}
+              <Route path="/sponsorship/manage" element={<MySponsorships />} />
               <Route path="/admin/venues" element={<AddVenue />} />
               <Route path="/admin/sponsorship/packages" element={<AdminSponsorPackages />} />
               <Route path="/gallery" element={<Gallery />} />
@@ -95,22 +100,26 @@ function App() {
               <Route path="/admin/events" element={<AdminEventApproval />} />
               <Route path="/admin/judges" element={<ManageJudges />} />
               <Route path="/admin/payments" element={<VerifyPayments />} />
+              <Route path="/admin/payment-approval" element={<AdminPaymentApproval />} />
               <Route path="/admin/accommodation" element={<AccommodationDetails />} />
+              <Route path="/accommodation" element={<StudentAccommodation />} />
               <Route path="/events/:eventId/rounds/manage" element={<ManageRounds />} />
               <Route path="/events/manage" element={<Events />} />
               <Route path="/events/create" element={<AddEvents />} />
               <Route path="/admin/judges/add" element={<AddJudge />} />
-              {/* Add more general site pages here */}
-              
+              <Route path="/judge/events" element={<JudgeEventsList />} />
+              <Route path="/judge/event/:eventId" element={<JudgeEventDetails />} />
+              <Route path="/judge/team/:eventId/:teamId" element={<JudgeScoreSubmission />} />
+              <Route path="/judge/event/:eventId/results" element={<JudgeEventResults />} />
+              <Route path="/judge/scoring-history" element={<JudgeScoringHistory />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
         </div>
         <Footer />
-        {/* Toast notifications */}
         <ToastContainer
-          position="top-left" // Show from the top left
-          autoClose={1500}    // Shorter stay time (1.5s)
+          position="top-left"
+          autoClose={1500}
           hideProgressBar={false}
           newestOnTop={true}
           closeOnClick
@@ -120,10 +129,8 @@ function App() {
           pauseOnHover
           theme={theme === "dark" ? "dark" : "light"}
         />
-        {/* Optional: Custom scrollbar styling for vertical scroll */}
         <style>{`
           :root {
-            /* Theme-based color tokens - updated dynamically */
             --bg-primary: ${theme === "dark" ? "#18122b" : "#FAF9F6"};
             --bg-secondary: ${theme === "dark" ? "#1a1333" : "#FFF8E1"};
             --bg-tertiary: ${theme === "dark" ? "#2a1e4d" : "#FFFFFF"};
@@ -134,13 +141,11 @@ function App() {
             
             --border-light: ${theme === "dark" ? "#3A2A5D" : "#E5E5E5"};
             
-            /* Semantic colors - adapt based on theme */
             --success: ${theme === "dark" ? "#66BB6A" : "#2E7D32"};
             --info: ${theme === "dark" ? "#29B6F6" : "#0288D1"};
             --warning: ${theme === "dark" ? "#FFB74D" : "#FF9800"};
             --error: ${theme === "dark" ? "#EF5350" : "#C62828"};
             
-            /* Glass morphism properties */
             --glass-bg: ${theme === "dark" 
               ? "rgba(26, 19, 51, 0.85)" 
               : "rgba(255, 255, 255, 0.7)"};
@@ -152,7 +157,6 @@ function App() {
               : "0 8px 32px 0 #4E2A8422, 0 2px 8px 0 #FFC72C22"};
           }
           
-          /* Existing styles */
           html, body, #root {
             overflow-x: hidden !important;
             background: var(--bg-primary);
@@ -160,11 +164,10 @@ function App() {
             transition: background 0.5s, color 0.5s;
           }
           
-          /* Typography theme adaptation */
           ${theme === "dark" ? `
             body {
-              font-weight: 500; /* Slightly increased for dark mode */
-              line-height: 1.65; /* 1.1x standard line height */
+              font-weight: 500;
+              line-height: 1.65;
             }
           ` : `
             body {
@@ -173,7 +176,6 @@ function App() {
             }
           `}
           
-          /* Glass card styling */
           .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(8px);
@@ -181,7 +183,6 @@ function App() {
             box-shadow: var(--glass-shadow);
           }
           
-          /* Existing scrollbar styling */
           ::-webkit-scrollbar {
             width: 10px;
             background: ${theme === "dark" ? "#2a1e4d" : "#f5e9c9"};
@@ -197,7 +198,6 @@ function App() {
             scrollbar-color: #FFC72C ${theme === "dark" ? "#2a1e4d" : "#f5e9c9"};
             scrollbar-width: thin;
           }
-          /* Make all purple text gold in dark mode */
           ${theme === "dark" ? `
             .text-purple-700, .text-purple-800, .text-purple-900,
             .text-[#4E2A84], .text-[#6C2EB7], .text-purple, .text-violet-700, .text-violet-800, .text-violet-900,

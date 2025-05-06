@@ -21,8 +21,10 @@ function MySponsorships() {
   }, []);
 
   const fetchSponsorships = () => {
-    fetch("http://localhost:3000/sponsorships/my", {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    fetch("http://localhost:3000/sponsor/sponsorships", {
+      headers: { 
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
     })
       .then(res => {
         if (!res.ok) throw new Error("Failed to fetch sponsorships");
@@ -152,8 +154,37 @@ function MySponsorships() {
         animate={{ width: 80 }}
         transition={{ delay: 0.3, duration: 0.8 }}
       />
-
-      <div className="w-full max-w-4xl">
+      
+      {/* Important Information Section */}
+      <motion.div
+        className="w-full max-w-3xl glass-card mb-8 rounded-xl overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <div className="p-1 bg-gradient-to-r from-purple-900 to-amber-400">
+          {/* Gradient strip at top */}
+        </div>
+        <div className="p-6">
+          <h2 
+            className="font-fraunces text-xl font-bold mb-3 flex items-center" 
+            style={{ color: theme === "dark" ? "#FFC72C" : "#4E2A84" }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+            Managing Your Sponsorships
+          </h2>
+          <p className="text-sm mb-2" style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>
+            <strong>Activation Status:</strong> Your sponsorship will be activated after payment verification. The status indicator shows whether your sponsorship is pending, active, or requires attention.
+          </p>
+          <p className="text-sm" style={{ color: theme === "dark" ? "#f5e9c9" : "#18122b" }}>
+            <strong>Materials Submission:</strong> Use this page to upload your organization's logo and promotional materials according to the specifications in your package. Materials must be approved before they appear on event materials.
+          </p>
+        </div>
+      </motion.div>
+      
+      <div className="w-full max-w-3xl">
         {/* Payment Form Modal */}
         {showPaymentForm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

@@ -23,6 +23,15 @@ function TopBar() {
   // Determine user role for conditional rendering
   const userRole = user?.role || "undefined"; // If not logged in, role is "undefined"
 
+  const navItems = [
+    { to: "/", label: "Home", roles: ["all"] },
+    { to: "/events", label: "Events", roles: ["all"] }, 
+    { to: "/sponsorship/packages", label: "Sponsorships", roles: ["sponsor"] },
+    { to: "/accommodation", label: "Accommodation", roles: ["student"] }, 
+    { to: "/profile", label: "Profile", roles: ["student", "sponsor", "organizer", "admin", "judge"] },
+    { to: "/admin/events", label: "Admin Panel", roles: ["admin"] }
+  ];
+
   function handleLogout() {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -47,27 +56,32 @@ function TopBar() {
       admin: [
         { to: "/admin/events", label: "Manage Events" },
         { to: "/admin/venues", label: "Manage Venues" },
+        { to: "/admin/events", label: "Event Approval" },
         { to: "/admin/judges/add", label: "Add Judge" },
         { to: "/admin/judges", label: "Manage Judges" },
         { to: "/admin/payments", label: "Verify Payments" },
-        { to: "/admin/accommodation", label: "Accommodation Details" }
+        { to: "/admin/accommodation", label: "Accommodation Details" },
+        { to: "/admin/sponsorship/packages", label: "Sponsor Packages" },
+        { to: "/admin/payment-approval", label: "Payment Approval" }
       ],
       organizer: [
-        { to: "/events/create", label: "Create Event" }, // Fixed path to match Dashboard
-        { to: "/events/manage", label: "My Events" }
+        { to: "/events/create", label: "Create Event" },
+        { to: "/events", label: "My Events" }
       ],
       sponsor: [
         { to: "/sponsorship/packages", label: "View Packages" },
-        { to: "/sponsorship/manage", label: "My Sponsorships" },
-        { to: "/payments", label: "Sponsorship Payments" } // Added to match Dashboard
+        { to: "/sponsorship/manage", label: "My Sponsorships" }
       ],
       student: [
-        { to: "/events", label: "Browse Events" }, // Added to match Dashboard
+        { to: "/events", label: "Browse Events" },
         { to: "/my-registrations", label: "My Registrations" },
-        { to: "/payments", label: "Payments" } // Added to match Dashboard
+        { to: "/event/register", label: "Register for Event" },
+        { to: "/event/payment", label: "Event Payment" },
+        { to: "/accommodation", label: "My Accommodation" }
       ],
       judge: [
-        { to: "/judge/events", label: "Assigned Events" }
+        { to: "/judge/events", label: "Assigned Events" },
+        { to: "/judge/scoring-history", label: "Scoring History" }
       ]
     };
     
