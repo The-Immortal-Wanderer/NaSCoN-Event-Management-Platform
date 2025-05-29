@@ -52,7 +52,7 @@ function StudentDashboard({ user }) {
   return (
     <>
       <h1
-        className="text-4xl md:text-5xl font-fraunces font-extrabold mb-2 whitespace-nowrap overflow-hidden text-ellipsis"
+        className="text-4xl md:text-5xl font-fraunces font-extrabold mb-2 overflow-hidden text-ellipsis"
         style={{
           lineHeight: "1.15",
           paddingBottom: "0.2em",
@@ -180,7 +180,7 @@ function OrganizerDashboard({ user }) {
   return (
     <>
       <h1
-        className="text-4xl md:text-5xl font-fraunces font-extrabold mb-2 whitespace-nowrap overflow-hidden text-ellipsis"
+        className="text-4xl md:text-5xl font-fraunces font-extrabold mb-2 overflow-hidden text-ellipsis"
         style={{
           lineHeight: "1.15",
           paddingBottom: "0.2em",
@@ -247,7 +247,7 @@ function SponsorDashboard({ user }) {
   return (
     <>
       <h1
-        className="text-4xl md:text-5xl font-fraunces font-extrabold mb-2 whitespace-nowrap overflow-hidden text-ellipsis"
+        className="text-4xl md:text-5xl font-fraunces font-extrabold mb-2 overflow-hidden text-ellipsis"
         style={{
           lineHeight: "1.15",
           paddingBottom: "0.2em",
@@ -314,7 +314,7 @@ function AdminDashboard({ user }) {
   return (
     <>
       <h1
-        className="text-4xl md:text-5xl font-fraunces font-extrabold mb-2 whitespace-nowrap overflow-hidden text-ellipsis"
+        className="text-4xl md:text-5xl font-fraunces font-extrabold mb-2 overflow-hidden text-ellipsis"
         style={{
           lineHeight: "1.15",
           paddingBottom: "0.2em",
@@ -500,7 +500,7 @@ function JudgeDashboard({ user }) {
   return (
     <>
       <h1
-        className="text-4xl md:text-5xl font-fraunces font-extrabold mb-2 whitespace-nowrap overflow-hidden text-ellipsis"
+        className="text-4xl md:text-5xl font-fraunces font-extrabold mb-2 overflow-hidden text-ellipsis"
         style={{
           lineHeight: "1.15",
           paddingBottom: "0.2em",
